@@ -1,9 +1,21 @@
+import { useEffect, useState } from 'preact/hooks';
+import { Link } from 'preact-router';
+
 import Header from '../../components/header';
-import { areaNames } from '../../shared/constants';
+import ApiService from '../../shared/api-service';
+import { AREAS } from '../../shared/constants';
 import style from './style.scss';
 
 const Area = ({ area }) => {
-  const areaTitle = areaNames[area];
+  const areaTitle = AREAS[area].name;
+  const areaColor = AREAS[area].color;
+  const [animals, updateAnimals] = useState([]);
+
+  useEffect(() => {
+    ApiService.fetchAnimals({ area }).then((fetchedAnimals) =>
+      updateAnimals(fetchedAnimals)
+    );
+  }, [area]);
 
   const clicked = (event) => {
     const position = [
@@ -13,14 +25,33 @@ const Area = ({ area }) => {
     console.log(position.map((val) => Math.floor(val * 100)));
   };
 
+  const animalIcons = animals.map((animal) => {
+    const [x, y] = animal.location.map((percentage) => `${percentage}%`);
+
+    return (
+      <Link
+        href={`/who/${animal.id}`}
+        class={style.animal}
+        style={{ top: y, left: x, backgroundColor: animal.color }}
+        onClick={(event) => event.stopPropagation()}>
+        {animal.name.charAt(0)}
+      </Link>
+    );
+  });
+  console.log(animalIcons);
+
   return (
     <div class={style.area}>
-      <Header title={areaTitle} showBack={true}></Header>
+      <Header
+        title={areaTitle}
+        backLink='/'
+        backgroundColor={AREAS[area].color}></Header>
       <div
         style={{ backgroundImage: `url(../../assets/areas/${area}.png)` }}
         class={style.map}
-        onClick={clicked}
-      />
+        onClick={clicked}>
+        {animalIcons}
+      </div>
     </div>
   );
 };

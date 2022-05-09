@@ -1,0 +1,27 @@
+.who {
+    height: calc(100% - 56px);
+    position: relative;
+
+    .detailsWrapper {
+        height: 100%;
+        padding: 10px;
+
+        border-bottom: 56px;
+        border-right: 20px;
+        border-left: 20px;
+        border-style: solid;
+    }
+
+    .details {
+        .row {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+
+            > *:first-child {
+                margin-right: 10px;
+                opacity: 0.7;
+            }
+        }
+    }
+}

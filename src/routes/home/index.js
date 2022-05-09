@@ -26,61 +26,6 @@ const Home = () => (
         <div>Old Folks</div>
       </Link>
     </div>
-    {/* <img
-      src='../../assets/areas/overview.png'
-      usemap='#image-map'
-      class={style.map}
-    />
-    <map name='image-map'>
-      <area
-        target=''
-        alt='Red Barn'
-        title='Red Barn'
-        href='/area/redbarn'
-        coords='0,476,82,759'
-        shape='rect'
-      />
-      <area
-        target=''
-        alt='Field'
-        title='Field'
-        href='/area/field'
-        coords='3,284,434,-1'
-        shape='rect'
-      />
-      <area
-        target=''
-        alt='Yard'
-        title='Yard'
-        href='/area/yard'
-        coords='7,462,247,299'
-        shape='rect'
-      />
-      <area
-        target=''
-        alt='Blue Barn'
-        title='Blue Barn'
-        href='/area/bluebarn'
-        coords='340,488,422,763'
-        shape='rect'
-      />
-      <area
-        target=''
-        alt='Front'
-        title='Front'
-        href='/area/front'
-        coords='86,761,325,480'
-        shape='rect'
-      />
-      <area
-        target=''
-        alt='Old Folks Block'
-        title='Old Folks Block'
-        href='/area/oldfolks'
-        coords='267,297,422,465'
-        shape='rect'
-      />
-    </map> */}
   </div>
 );
 

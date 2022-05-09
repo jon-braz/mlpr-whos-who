@@ -1,6 +1,6 @@
 {
-  "name": "mlpr-whos-who",
-  "short_name": "mlpr-whos-who",
+  "name": "MLPR - Who's Who",
+  "short_name": "MLPR",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
