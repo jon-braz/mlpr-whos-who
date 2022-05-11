@@ -1,0 +1,12 @@
+.add {
+    .status {
+        padding-left: 10px;
+
+        &.success {
+            color: green;
+        }
+        &.error {
+            color: red;
+        }
+    }
+}

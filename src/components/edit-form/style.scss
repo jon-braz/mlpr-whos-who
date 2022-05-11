@@ -1,0 +1,15 @@
+form {
+    padding: 10px;
+}
+
+.inputPair {
+    display: flex;
+
+    .inputLabel {
+        flex-basis: 40%;
+    }
+
+    input {
+        flex-basis: 60%;
+    }
+}
