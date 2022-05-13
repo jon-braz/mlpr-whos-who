@@ -24,7 +24,8 @@ const Who = ({ name }) => {
       <Header
         title={animal.name || name}
         backLink={`/area/${animal.area}`}
-        mainColor={animal.dangerLevel}></Header>
+        mainColor={animal.dangerLevel}
+        editLink={`/edit/${animal.id}`}></Header>
       <div
         class={style.detailsWrapper}
         style={{ borderColor: animal.dangerLevel }}>

@@ -1,8 +1,9 @@
 import { Link } from 'preact-router/match';
 import { BackIcon } from '../icons';
+import PencilIcon from 'mdi-preact/PencilIcon';
 import style from './style.scss';
 
-const Header = ({ title, backLink, mainColor }) => {
+const Header = ({ title, backLink, mainColor, editLink }) => {
   return (
     <header class={style.header} style={{ backgroundColor: mainColor }}>
       {backLink && (
@@ -11,6 +12,11 @@ const Header = ({ title, backLink, mainColor }) => {
         </Link>
       )}
       <h1>{title}</h1>
+      {editLink && (
+        <Link href={editLink} class={style.editLink}>
+          <PencilIcon class={style.editIcon} />
+        </Link>
+      )}
     </header>
   );
 };
