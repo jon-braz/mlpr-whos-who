@@ -15,8 +15,7 @@ const Edit = ({ name }) => {
     ApiService.fetchAnimal({ name }).then((animal) => {
       setFormState({
         ...animal,
-        location: animal.location.join(','),
-        food: animal.food.join(', ')
+        food: animal.food.join(',')
       });
       setLoading(false);
     });
@@ -51,7 +50,10 @@ const Edit = ({ name }) => {
 
   return (
     <div class={style.add}>
-      <Header title={`Edit ${formState?.name || '...'}`} backLink='/' />
+      <Header
+        title={`Edit ${formState?.name || '...'}`}
+        backLink={`/who/${name}`}
+      />
       {formState && (
         <EditForm onSave={onSave} loading={loading} existingState={formState} />
       )}

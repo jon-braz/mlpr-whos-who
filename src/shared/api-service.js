@@ -36,7 +36,7 @@ export default class ApiService {
   static addOrUpdateAnimal(animal) {
     const toAdd = { ...animal };
     toAdd.food = toAdd.food.split(',');
-    toAdd.location = toAdd.location.split(',').map((str) => parseInt(str));
+    toAdd.location = toAdd.location.map((str) => parseInt(str));
     const id = toAdd.name.toLowerCase().replaceAll(' ', '');
 
     const animalsCollection = collection(firestore, COLLECTION_ANIMALS);

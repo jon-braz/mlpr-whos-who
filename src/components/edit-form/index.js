@@ -1,5 +1,7 @@
 import { useState } from 'preact/hooks';
-import { AREAS } from '../../shared/constants';
+import AreaMap from '../area-map';
+import OverallMap from '../map';
+import Modal from '../modal';
 import style from './style.scss';
 
 const defaultFormState = {
@@ -8,9 +10,24 @@ const defaultFormState = {
   dangerLevel: 'green'
 };
 
-const FormInput = ({ fieldName, formState, onInput, ...params }) => (
-  <label class={style.inputPair} key={fieldName}>
-    <span class={style.inputLabel}>{fieldName}</span>
+const formLabels = {
+  name: 'Name',
+  species: 'Species',
+  area: 'Area',
+  color: 'Color',
+  dangerLevel: 'Danger Level',
+  dangerReason: 'Why?',
+  food: 'Food',
+  enrichment: 'Enrichment',
+  dominant: 'Dominant',
+  character: 'Character',
+  howToIdentify: 'How to Identify',
+  about: 'About'
+};
+
+const FormInput = ({ fieldName, formState, onInput, className, ...params }) => (
+  <label class={`${style.inputPair} ${className}`} key={fieldName}>
+    <span class={style.inputLabel}>{formLabels[fieldName] || fieldName}</span>
     <input
       type='text'
       value={formState[fieldName]}
@@ -22,7 +39,7 @@ const FormInput = ({ fieldName, formState, onInput, ...params }) => (
 
 const FormSelect = ({ fieldName, formState, onChange, options }) => (
   <label class={style.inputPair} key={fieldName}>
-    <span class={style.inputLabel}>{fieldName}</span>
+    <span class={style.inputLabel}>{formLabels[fieldName] || fieldName}</span>
     <select value={formState[fieldName]} onChange={onChange(fieldName)}>
       {options.map((option) => (
         <option value={option.id}>{option.label}</option>
@@ -30,11 +47,6 @@ const FormSelect = ({ fieldName, formState, onChange, options }) => (
     </select>
   </label>
 );
-
-const areaOptions = Object.values(AREAS).map((area) => ({
-  id: area.id,
-  label: area.name
-}));
 
 const dangerLevelOptions = [
   { id: 'green', label: 'Green' },
@@ -44,6 +56,8 @@ const dangerLevelOptions = [
 
 const EditForm = ({ existingState, onSave, loading }) => {
   const [formState, setFormState] = useState(existingState || defaultFormState);
+  const [showMap, setShowMap] = useState(false);
+  const [showArea, setShowArea] = useState(null);
 
   const onInput = (fieldName) => (e) => {
     setFormState({ ...formState, [fieldName]: e.target.value });
@@ -58,6 +72,30 @@ const EditForm = ({ existingState, onSave, loading }) => {
     onSave(formState);
   };
 
+  const showAreaMap = (area) => {
+    setShowArea(area);
+    setShowMap(false);
+  };
+
+  const changeLocation = (event) => {
+    event.preventDefault();
+    setShowMap(true);
+  };
+
+  const setLocation = (position) => {
+    setFormState({ ...formState, area: showArea, location: position });
+    setShowArea(null);
+  };
+
+  const setPairedLocation = (animal) => {
+    setLocation(animal.location);
+  };
+
+  const closeModal = () => {
+    setShowArea(null);
+    setShowMap(false);
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <FormInput fieldName={'name'} formState={formState} onInput={onInput} />
@@ -67,18 +105,12 @@ const EditForm = ({ existingState, onSave, loading }) => {
         onInput={onInput}
         value='pig'
       />
-      <FormSelect
-        fieldName={'area'}
-        formState={formState}
-        onChange={onInput}
-        options={areaOptions}
-      />
-      <FormInput
-        fieldName={'location'}
-        formState={formState}
-        onInput={onInput}
-        placeholder='10,20'
-      />
+      <label class={style.inputPair} key={'area'}>
+        <span class={style.inputLabel}>{formLabels['area']}</span>
+        <button onClick={changeLocation}>
+          {formState.area} ({formState.location.join(', ')})
+        </button>
+      </label>
       <FormInput fieldName={'color'} formState={formState} onInput={onInput} />
       <FormSelect
         fieldName={'dangerLevel'}
@@ -86,8 +118,22 @@ const EditForm = ({ existingState, onSave, loading }) => {
         onChange={onInput}
         options={dangerLevelOptions}
       />
+      {(formState.dangerLevel === 'orange' ||
+        formState.dangerLevel === 'red') && (
+        <FormInput
+          fieldName='dangerReason'
+          formState={formState}
+          onInput={onInput}
+          required
+          className={
+            formState.dangerLevel === 'red'
+              ? style.dangerRed
+              : style.dangerOrange
+          }
+        />
+      )}
       <label class={style.inputPair} key='dominant'>
-        <span class={style.inputLabel}>dominant</span>
+        <span class={style.inputLabel}>{formLabels['dominant']}</span>
         <input
           type='checkbox'
           checked={formState['dominant']}
@@ -99,6 +145,11 @@ const EditForm = ({ existingState, onSave, loading }) => {
         formState={formState}
         onInput={onInput}
       />
+      <FormInput
+        fieldName={'howToIdentify'}
+        formState={formState}
+        onInput={onInput}
+      />
       <FormInput fieldName={'food'} formState={formState} onInput={onInput} />
       <FormInput
         fieldName={'enrichment'}
@@ -107,8 +158,22 @@ const EditForm = ({ existingState, onSave, loading }) => {
       />
       <FormInput fieldName={'about'} formState={formState} onInput={onInput} />
       <button type='submit' disabled={loading}>
-        Submit
+        Save
       </button>
+      {showMap && (
+        <Modal dismiss={closeModal}>
+          <OverallMap onClick={showAreaMap} />
+        </Modal>
+      )}
+      {showArea && (
+        <Modal dismiss={closeModal}>
+          <AreaMap
+            area={showArea}
+            showAnimals={true}
+            onClick={setLocation}
+            animalOnClick={setPairedLocation}></AreaMap>
+        </Modal>
+      )}
     </form>
   );
 };

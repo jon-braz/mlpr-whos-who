@@ -4,12 +4,25 @@ form {
 
 .inputPair {
     display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 
     .inputLabel {
-        flex-basis: 40%;
+        flex-basis: 30%;
+        text-align: right;
+        padding-right: 10px;
     }
 
-    input {
-        flex-basis: 60%;
+    input:not([type='checkbox']) {
+        flex-grow: 1;
+    }
+
+    &.dangerRed {
+        background-color: rgba(red, 0.3);
+        padding: 5px 5px 5px 0;
+    }
+    &.dangerOrange {
+        background-color: rgba(orange, 0.3);
+        padding: 5px 5px 5px 0;
     }
 }

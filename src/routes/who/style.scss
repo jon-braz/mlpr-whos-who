@@ -6,7 +6,7 @@
         height: 100%;
         padding: 10px;
 
-        border-bottom: 56px;
+        border-bottom: 20px;
         border-right: 20px;
         border-left: 20px;
         border-style: solid;
@@ -22,6 +22,18 @@
                 margin-right: 10px;
                 opacity: 0.7;
             }
+        }
+
+        .dangerOrange, .dangerRed {
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .dangerOrange {
+            background-color: rgba(orange, 0.3);
+        }
+        .dangerRed {
+            background-color: rgba(red, 0.3);
         }
     }
 }

@@ -1,0 +1,18 @@
+.modalContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(#ccc, 0.5);
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    padding: 15px;
+
+    .modalContent {
+        width: 100%;
+        background-color: white;
+        display: flex;
+    }
+}

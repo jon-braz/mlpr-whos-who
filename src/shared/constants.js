@@ -9,11 +9,11 @@ export const areaNames = {
 
 export const AREAS = {
   front: { name: 'Front', color: 'purple', id: 'front' },
-  redbarn: { name: 'Red Barn', color: 'red', id: 'redbarn' },
-  bluebarn: { name: 'Blue Barn', color: 'blue', id: 'bluebarn' },
+  redbarn: { name: 'Red Barn', color: 'red', id: 'redBarn' },
+  bluebarn: { name: 'Blue Barn', color: 'blue', id: 'blueBarn' },
   yard: { name: 'Yard', color: 'brown', id: 'yard' },
   field: { name: 'Field', color: 'green', id: 'field' },
-  oldfolks: { name: 'Old Folks Block', color: 'grey', id: 'oldfolks' }
+  oldfolks: { name: 'Old Folks Block', color: 'grey', id: 'oldFolks' }
 };
 
 export const COLLECTION_ANIMALS = 'animals';
