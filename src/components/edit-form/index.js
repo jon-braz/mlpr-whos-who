@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks';
+import { readFiles } from '../../shared/image-preprocessor';
 import AreaMap from '../area-map';
 import OverallMap from '../map';
 import Modal from '../modal';
@@ -22,11 +23,12 @@ const formLabels = {
   dominant: 'Dominant',
   character: 'Character',
   howToIdentify: 'How to Identify',
-  about: 'About'
+  about: 'About',
+  imagePath: 'Image'
 };
 
 const FormInput = ({ fieldName, formState, onInput, className, ...params }) => (
-  <label class={`${style.inputPair} ${className}`} key={fieldName}>
+  <label class={`${style.inputPair} ${className || null}`} key={fieldName}>
     <span class={style.inputLabel}>{formLabels[fieldName] || fieldName}</span>
     <input
       type='text'
@@ -61,6 +63,25 @@ const EditForm = ({ existingState, onSave, loading }) => {
 
   const onInput = (fieldName) => (e) => {
     setFormState({ ...formState, [fieldName]: e.target.value });
+  };
+
+  const onImageInput = (fieldName) => async (e) => {
+    if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+      alert('The File APIs are not fully supported in this browser.');
+      return false;
+    }
+
+    const files = Array.from(e.target.files);
+
+    const compressedImage = await readFiles(files, 500, 500);
+
+    setFormState({
+      ...formState,
+      [fieldName]: files.map((file) => file.name),
+      imageUpdated: true,
+      imageDataUrl: compressedImage[0],
+      imageName: files.map((file) => file.name)
+    });
   };
 
   const toggle = (fieldName) => () => {
@@ -107,7 +128,7 @@ const EditForm = ({ existingState, onSave, loading }) => {
       />
       <label class={style.inputPair} key={'area'}>
         <span class={style.inputLabel}>{formLabels['area']}</span>
-        <button onClick={changeLocation}>
+        <button type='button' class={style.button} onClick={changeLocation}>
           {formState.area} ({formState.location.join(', ')})
         </button>
       </label>
@@ -157,7 +178,23 @@ const EditForm = ({ existingState, onSave, loading }) => {
         onInput={onInput}
       />
       <FormInput fieldName={'about'} formState={formState} onInput={onInput} />
-      <button type='submit' disabled={loading}>
+      <label class={`${style.inputPair}`} key={'imagePath'}>
+        <span class={style.inputLabel}>
+          {formLabels['imagePath'] || 'imagePath'}
+        </span>
+        <span class={style.button}>{formState.imageName || 'Choose File'}</span>
+        <input
+          value={formState['imagePath']}
+          onInput={onImageInput('imagePath')}
+          type='file'
+          accept='image/png, image/jpeg'
+          style='display: none'
+        />
+      </label>
+      <button
+        type='submit'
+        disabled={loading}
+        class={`${style.button} ${style.submitBtn}`}>
         Save
       </button>
       {showMap && (

@@ -26,3 +26,24 @@ form {
         padding: 5px 5px 5px 0;
     }
 }
+
+.button {
+    padding: 4px 8px;
+    background-color: #673AB7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+
+    &:hover {
+        filter: brightness(0.8);
+    }
+}
+
+.submitBtn {
+    width: 100%;
+    margin-top: 10px;
+}

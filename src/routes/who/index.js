@@ -42,6 +42,9 @@ const Who = ({ name }) => {
               <AlertIcon /> {animal.dangerReason}
             </div>
           )}
+          {animal.imagePath && (
+            <img src={animal.imagePath} class={style.profileImage} />
+          )}
           {animal.character && (
             <div class={style.row}>
               <EmoticonIcon /> {animal.character}
