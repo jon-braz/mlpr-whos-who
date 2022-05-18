@@ -2,14 +2,22 @@ import { useEffect, useState } from 'preact/hooks';
 import ApiService from '../../shared/api-service';
 import style from './style.scss';
 
+let locationMap = {};
+
 const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
   const [animals, updateAnimals] = useState([]);
 
   useEffect(() => {
     if (showAnimals) {
-      ApiService.fetchAnimals({ area }).then((fetchedAnimals) =>
-        updateAnimals(fetchedAnimals)
-      );
+      ApiService.fetchAnimals({ area }).then((fetchedAnimals) => {
+        locationMap = fetchedAnimals.reduce((map, animal) => {
+          const locationString = animal.location.join('');
+          const animalsAtLocation = map[locationString] || [];
+          map[locationString] = [...animalsAtLocation, animal];
+          return map;
+        }, {});
+        updateAnimals(fetchedAnimals);
+      });
     }
   }, [area]);
 
@@ -28,16 +36,28 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
     }
   };
 
-  const animalIcons = showAnimals
-    ? animals.map((animal) => {
-        const [x, y] = animal.location.map((percentage) => `${percentage}%`);
+  const AnimalIcon = ({ animal }) => (
+    <div
+      class={`${style.animal} ${animalOnClick ? style.clickable : null} `}
+      style={{ backgroundColor: animal.color }}
+      onClick={clickedAnimal(animal)}>
+      {animal.name.charAt(0)}
+    </div>
+  );
+
+  const animalGroupIcons = showAnimals
+    ? Object.values(locationMap).map((group) => {
+        const [x, y] = group[0].location.map((percentage) => `${percentage}%`);
 
         return (
           <div
-            class={`${style.animal} ${animalOnClick ? style.clickable : null}`}
-            style={{ top: y, left: x, backgroundColor: animal.color }}
-            onClick={clickedAnimal(animal)}>
-            {animal.name.charAt(0)}
+            class={`${style.animalGroup} ${
+              group.length > 1 ? style.multiple : null
+            }`}
+            style={{ top: y, left: x }}>
+            {group.map((animal) => (
+              <AnimalIcon animal={animal} />
+            ))}
           </div>
         );
       })
@@ -48,7 +68,7 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
       style={{ backgroundImage: `url(../../assets/areas/${area}.png)` }}
       class={`${style.map} ${onClick ? style.clickable : null}`}
       onClick={clicked}>
-      {animalIcons}
+      {animalGroupIcons}
     </div>
   );
 };

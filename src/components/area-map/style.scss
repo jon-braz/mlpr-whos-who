@@ -4,11 +4,27 @@
     position: relative;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 100% 100%;     
-
-    .animal {
+    background-size: 100% 100%;  
+    
+    .animalGroup {
         position: absolute;
         transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+
+        &.multiple {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+        background-color: white;
+        }
+
+        .animal + .animal {
+            margin-left: 4px;
+        }
+    }
+
+    .animal {
         height: 20px;
         width: 20px;
 
