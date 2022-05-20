@@ -17,7 +17,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service ('db' in cloud documentation)
 export const firestore = getFirestore(app);
-enableIndexedDbPersistence(firestore);
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 export const storage = getStorage(app);
