@@ -10,9 +10,7 @@ const OverallMap = ({ onClick }) => {
     return (
       <div
         class={`${style[area.id]} ${style.area}`}
-        onClick={areaOnClick(area.id)}>
-        {area.name}
-      </div>
+        onClick={areaOnClick(area.id)}></div>
     );
   });
 

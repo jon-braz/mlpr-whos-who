@@ -187,7 +187,7 @@ const EditForm = ({ existingState, onSave, loading }) => {
           type='file'
           accept='image/*'
           style='display: none'
-          capture='environment'
+          capture='camera'
         />
       </label>
       <button

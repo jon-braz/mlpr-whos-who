@@ -9,14 +9,13 @@
     background-size: 100% 100%;
 
     display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 30% 30% 20% 20%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-areas: 
-        "field field field"
-        "field field field"
-        "yard yard oldfolks"
-        "redbarn front bluebarn"
-        "redbarn front bluebarn"
+        ".       field   field   field    .       "
+        "yard    yard    .       oldfolks oldfolks"
+        ".       front   front   front    .       "
+        "redbarn redbarn .       bluebarn bluebarn"
     ;
 
     .area {
@@ -30,9 +29,6 @@
         font-weight: bold;
         color: black;
 
-        border-style: solid;
-        border-width: 8px;
-
         transition: all 200ms;
 
         &:hover {
@@ -43,31 +39,25 @@
 	
 	.front {
 		grid-area: front;
-		border-color: purple
 	}
 	
 	.field {
 		grid-area: field;
-		border-color: green;
 	}
 	
 	.bluebarn {
 		grid-area: bluebarn;
-		border-color: blue;
 	}
 	
 	.redbarn {
 		grid-area: redbarn;
-		border-color: red;
 	}
 	
 	.oldfolks {
 		grid-area: oldfolks;
-		border-color: grey;
 	}
 	
 	.yard {
 		grid-area: yard;
-		border-color: brown;
 	}
 }
