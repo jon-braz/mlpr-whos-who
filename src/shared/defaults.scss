@@ -1,0 +1,11 @@
+$orange: #FF9900;
+$green: #88AD7B;
+$red: #b80f0a;
+
+$primary-background: $green;
+
+:root {
+    --danger-orange: $orange;
+    --danger-green: $green;
+    --danger-red: $red;
+}

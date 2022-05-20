@@ -38,8 +38,10 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
 
   const AnimalIcon = ({ animal }) => (
     <div
-      class={`${style.animal} ${animalOnClick ? style.clickable : null} `}
-      style={{ backgroundColor: animal.color }}
+      class={`
+      ${style.animal} 
+      ${animalOnClick ? style.clickable : null} 
+      ${style[animal.dangerLevel]}`}
       onClick={clickedAnimal(animal)}>
       {animal.name.charAt(0)}
     </div>
@@ -65,7 +67,7 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
 
   return (
     <div
-      style={{ backgroundImage: `url(../../assets/areas/${area}.png)` }}
+      style={{ backgroundImage: `url(../../assets/areas/${area}.jpg)` }}
       class={`${style.map} ${onClick ? style.clickable : null}`}
       onClick={clicked}>
       {animalGroupIcons}
