@@ -15,7 +15,6 @@ const formLabels = {
   name: 'Name',
   species: 'Species',
   area: 'Area',
-  color: 'Color',
   dangerLevel: 'Danger Level',
   dangerReason: 'Why?',
   food: 'Food',
@@ -132,7 +131,6 @@ const EditForm = ({ existingState, onSave, loading }) => {
           {formState.area} ({formState.location.join(', ')})
         </button>
       </label>
-      <FormInput fieldName={'color'} formState={formState} onInput={onInput} />
       <FormSelect
         fieldName={'dangerLevel'}
         formState={formState}

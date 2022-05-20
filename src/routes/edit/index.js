@@ -1,3 +1,4 @@
+import { route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import EditForm from '../../components/edit-form';
 import Header from '../../components/header';
@@ -26,13 +27,7 @@ const Edit = ({ name }) => {
     ApiService.addOrUpdateAnimal(updatedAnimal).then(
       () => {
         setLoading(false);
-        setStatus(`${updatedAnimal.name} updated`);
-        setState('success');
-
-        setTimeout(() => {
-          setState(null);
-          setStatus(null);
-        }, 5000);
+        route(`/who/${updatedAnimal.name.toLowerCase()}`);
       },
       (error) => {
         setLoading(false);

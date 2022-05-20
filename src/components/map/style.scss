@@ -3,6 +3,11 @@
 .map {
     width: 100%;
     height: calc(100vh - 56px);
+    background-image: url('../../assets/areas/overview.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: 1fr 2fr 1fr;
@@ -46,17 +51,17 @@
 		border-color: green;
 	}
 	
-	.blueBarn {
+	.bluebarn {
 		grid-area: bluebarn;
 		border-color: blue;
 	}
 	
-	.redBarn {
+	.redbarn {
 		grid-area: redbarn;
 		border-color: red;
 	}
 	
-	.oldFolks {
+	.oldfolks {
 		grid-area: oldfolks;
 		border-color: grey;
 	}

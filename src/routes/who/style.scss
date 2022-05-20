@@ -1,3 +1,5 @@
+@import '../../shared/defaults';
+
 .who {
     height: calc(100% - 56px);
     position: relative;
@@ -6,10 +8,21 @@
         min-height: 100%;
         padding: 10px;
 
+        border-top: 0;
         border-bottom: 20px;
         border-right: 20px;
         border-left: 20px;
         border-style: solid;
+
+        &.red {
+            border-color: $red-background;
+        }
+        &.orange {
+            border-color: $orange-background;
+        }
+        &.green {
+            border-color: $green-background;
+        }
     }
 
     .details {

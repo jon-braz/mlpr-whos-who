@@ -14,6 +14,8 @@ import style from './style.scss';
 const Who = ({ name }) => {
   const [animal, setAnimal] = useState({});
 
+  const styles = getComputedStyle(document.documentElement);
+
   useEffect(() => {
     ApiService.fetchAnimal({ name }).then((fetchedAnimal) => {
       console.log(fetchedAnimal);
@@ -26,11 +28,9 @@ const Who = ({ name }) => {
       <Header
         title={animal.name || name}
         backLink={`/area/${animal.area}`}
-        mainColor={animal.dangerLevel}
-        editLink={`/edit/${animal.id}`}></Header>
-      <div
-        class={style.detailsWrapper}
-        style={{ borderColor: animal.dangerLevel }}>
+        editLink={`/edit/${animal.id}`}
+        className={animal.dangerLevel}></Header>
+      <div class={`${style.detailsWrapper} ${style[animal.dangerLevel]}`}>
         <div class={style.details}>
           {animal.dangerReason && (
             <div

@@ -10,6 +10,22 @@
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 	z-index: 50;
 
+	&.red,
+	&.orange,
+	&.green {
+		box-shadow: none;
+	}
+
+	&.red {
+		background-color: $red-background;
+	}
+	&.orange {
+		background-color: $orange-background
+	}
+	&.green {
+		background-color: $green-background;
+	}
+
 	.backIcon {
 		height: 24px;
 		fill: white;
