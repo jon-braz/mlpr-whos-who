@@ -23,7 +23,7 @@ const formLabels = {
   dominant: 'Dominant',
   character: 'Character',
   howToIdentify: 'How to Identify',
-  about: 'About',
+  about: 'Good-to-Knows',
   imagePath: 'Image'
 };
 
