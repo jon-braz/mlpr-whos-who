@@ -14,7 +14,12 @@ const Area = ({ area }) => {
 
   return (
     <div class={style.area}>
-      <Header title={areaTitle} backLink='/' backgroundColor={areaColor} />
+      <Header
+        title={areaTitle}
+        backLink='/'
+        backgroundColor={areaColor}
+        addLink={true}
+      />
       <AreaMap
         area={area}
         showAnimals={true}

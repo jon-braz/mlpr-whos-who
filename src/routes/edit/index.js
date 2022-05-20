@@ -16,7 +16,7 @@ const Edit = ({ name }) => {
     ApiService.fetchAnimal({ name }).then((animal) => {
       setFormState({
         ...animal,
-        food: animal.food.join(',')
+        food: animal.food?.join(',') || null
       });
       setLoading(false);
     });
@@ -43,6 +43,13 @@ const Edit = ({ name }) => {
     );
   };
 
+  const onDelete = () => {
+    const area = formState.area;
+    ApiService.deleteAnimal(name).then(() =>
+      area ? route(`/area/${area}`) : route('/')
+    );
+  };
+
   return (
     <div class={style.add}>
       <Header
@@ -50,7 +57,12 @@ const Edit = ({ name }) => {
         backLink={`/who/${name}`}
       />
       {formState && (
-        <EditForm onSave={onSave} loading={loading} existingState={formState} />
+        <EditForm
+          onSave={onSave}
+          onDelete={onDelete}
+          loading={loading}
+          existingState={formState}
+        />
       )}
       <span class={`${style.status} ${style[state]}`}>{status}</span>
     </div>

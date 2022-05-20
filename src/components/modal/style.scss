@@ -15,4 +15,26 @@
         background-color: white;
         display: flex;
     }
+
+    .closeButton {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 50%;
+        background-color: #111;
+        opacity: 0.5;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        > svg {
+            color: white;
+            vertical-align: middle;
+        }
+    }
 }

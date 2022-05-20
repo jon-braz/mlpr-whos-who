@@ -7,23 +7,35 @@ import LightbulbIcon from 'mdi-preact/LightbulbIcon';
 import TeddyBearIcon from 'mdi-preact/TeddyBearIcon';
 import AlertIcon from 'mdi-preact/AlertIcon';
 import ArmFlexIcon from 'mdi-preact/ArmFlexIcon';
+import GroupIcon from 'mdi-preact/AccountGroupIcon';
 
 import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
 
 import style from './style.scss';
+import { Link } from 'preact-router';
+import Button from '../../components/button';
 
 const Who = ({ name }) => {
   const [animal, setAnimal] = useState({});
-
-  const styles = getComputedStyle(document.documentElement);
+  const [groupedAnimals, setGroupedAnimals] = useState([]);
 
   useEffect(() => {
-    ApiService.fetchAnimal({ name }).then((fetchedAnimal) => {
-      console.log(fetchedAnimal);
+    ApiService.fetchAnimal({ name }).then(async (fetchedAnimal) => {
       setAnimal(fetchedAnimal);
+      setGroupedAnimals(
+        await ApiService.getGroupedAnimals({ animal: fetchedAnimal })
+      );
     });
   }, [name]);
+
+  const groupedAnimalLinks = groupedAnimals.map((animal) => (
+    <Link href={`/who/${animal.id}`}>
+      <Button style={{ backgroundColor: animal.dangerLevel }}>
+        {animal.name}
+      </Button>
+    </Link>
+  ));
 
   return (
     animal.name && (
@@ -69,6 +81,11 @@ const Who = ({ name }) => {
             {animal.enrichment && (
               <div class={style.row}>
                 <TeddyBearIcon /> {animal.enrichment}
+              </div>
+            )}
+            {groupedAnimals?.length > 0 && (
+              <div class={style.row}>
+                <GroupIcon /> {groupedAnimalLinks}
               </div>
             )}
             {animal.about && (

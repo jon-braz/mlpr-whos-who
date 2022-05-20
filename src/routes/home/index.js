@@ -9,7 +9,9 @@ const navigateToArea = (area) => {
 
 const Home = () => (
   <div class={style.home}>
-    <Header title={'Piggy Map'} />
+    <Header addLink={true}>
+      <h1 class={style.title}>Piggy Map</h1>
+    </Header>
     <OverallMap onClick={navigateToArea} />
   </div>
 );

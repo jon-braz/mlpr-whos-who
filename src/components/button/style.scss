@@ -1,0 +1,17 @@
+@import '../../shared/defaults';
+
+.button {
+    padding: 4px 8px;
+    background-color: $primary-background;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+
+    &:hover {
+        filter: brightness(0.8);
+    }
+}

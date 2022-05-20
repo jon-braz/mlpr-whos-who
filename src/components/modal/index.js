@@ -1,4 +1,5 @@
 import { useRef } from 'preact/hooks';
+import CloseIcon from 'mdi-preact/CloseIcon';
 import style from './style.scss';
 
 const Modal = ({ children, dismiss }) => {
@@ -10,9 +11,17 @@ const Modal = ({ children, dismiss }) => {
     }
   };
 
+  const closeModal = (event) => {
+    event.stopPropagation();
+    dismiss?.();
+  };
+
   return (
     <div class={style.modalContainer} onClick={onContainerClick} ref={self}>
       <div class={style.modalContent}>{children}</div>
+      <button class={style.closeButton} onClick={closeModal}>
+        <CloseIcon />
+      </button>
     </div>
   );
 };

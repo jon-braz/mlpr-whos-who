@@ -1,6 +1,7 @@
 import { firestore, storage } from './firebase';
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -34,11 +35,29 @@ export default class ApiService {
     });
   }
 
+  static getGroupedAnimals({ animal }) {
+    if (!animal.area || animal.location?.length !== 2) {
+      return Promise.resolve([]);
+    }
+
+    const area = animal.area;
+    const [x, y] = animal.location;
+
+    return ApiService.fetchAnimals({ area }).then((animals) =>
+      animals.filter(
+        (fetchedAnimal) =>
+          fetchedAnimal.location[0] === x &&
+          fetchedAnimal.location[1] === y &&
+          fetchedAnimal.id !== animal.id
+      )
+    );
+  }
+
   static async addOrUpdateAnimal(animal) {
     const { imageUpdated, imageDataUrl, ...toAdd } = { ...animal };
-    toAdd.food = toAdd.food.split(',');
-    toAdd.location = toAdd.location.map((str) => parseInt(str));
-    const id = toAdd.name.toLowerCase().replaceAll(' ', '');
+    toAdd.food = toAdd.food?.split(',') || [];
+    toAdd.location = toAdd.location?.map((str) => parseInt(str)) || [];
+    const id = toAdd.name?.toLowerCase().replaceAll(' ', '');
     let imagePath;
 
     if (imageUpdated && imageDataUrl) {
@@ -56,6 +75,12 @@ export default class ApiService {
     const animalsCollection = collection(firestore, COLLECTION_ANIMALS);
 
     return setDoc(doc(animalsCollection, id), toAdd);
+  }
+
+  static deleteAnimal(id) {
+    const animalsCollection = collection(firestore, COLLECTION_ANIMALS);
+    const animal = doc(animalsCollection, id);
+    return deleteDoc(animal);
   }
 
   static async addAnimalImage(animalId, filename, fileDataUrl) {

@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { readFiles } from '../../shared/image-preprocessor';
 import AreaMap from '../area-map';
+import Button from '../button';
 import OverallMap from '../map';
 import Modal from '../modal';
 import style from './style.scss';
@@ -54,18 +55,21 @@ const dangerLevelOptions = [
   { id: 'red', label: 'Red' }
 ];
 
-const EditForm = ({ existingState, onSave, loading }) => {
+const EditForm = ({ existingState, onSave, loading, onDelete }) => {
   const [formState, setFormState] = useState(existingState || defaultFormState);
   const [showMap, setShowMap] = useState(false);
   const [showArea, setShowArea] = useState(null);
+  const [processingImage, setProcessingImage] = useState(false);
 
   const onInput = (fieldName) => (e) => {
     setFormState({ ...formState, [fieldName]: e.target.value });
   };
 
   const onImageInput = (fieldName) => async (e) => {
+    setProcessingImage(true);
     if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
       alert('The File APIs are not fully supported in this browser.');
+      setProcessingImage(false);
       return false;
     }
 
@@ -80,6 +84,7 @@ const EditForm = ({ existingState, onSave, loading }) => {
       imageDataUrl: compressedImages[0],
       imageName: files.map((file) => file.name)
     });
+    setProcessingImage(false);
   };
 
   const toggle = (fieldName) => () => {
@@ -115,9 +120,23 @@ const EditForm = ({ existingState, onSave, loading }) => {
     setShowMap(false);
   };
 
+  const confirmDelete = () => {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this animal?'
+    );
+    if (confirmed) {
+      onDelete();
+    }
+  };
+
   return (
     <form onSubmit={onSubmit}>
-      <FormInput fieldName={'name'} formState={formState} onInput={onInput} />
+      <FormInput
+        fieldName={'name'}
+        formState={formState}
+        onInput={onInput}
+        required
+      />
       <FormInput
         fieldName={'species'}
         formState={formState}
@@ -200,10 +219,19 @@ const EditForm = ({ existingState, onSave, loading }) => {
       )}
       <button
         type='submit'
-        disabled={loading}
+        disabled={loading || processingImage}
         class={`${style.button} ${style.submitBtn}`}>
         Save
       </button>
+      {onDelete && (
+        <Button
+          type='button'
+          disabled={loading}
+          class={`${style.button} ${style.deleteBtn}`}
+          onClick={confirmDelete}>
+          Delete
+        </Button>
+      )}
       {showMap && (
         <Modal dismiss={closeModal}>
           <OverallMap onClick={showAreaMap} />

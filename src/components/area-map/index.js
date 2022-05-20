@@ -56,7 +56,11 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
 
   const animalGroupIcons = showAnimals
     ? Object.values(locationMap).map((group) => {
-        const [x, y] = group[0].location.map((percentage) => `${percentage}%`);
+        let [rawX, rawY] = group[0].location;
+        if (rawX + group.length * 4 > 100) {
+          rawX -= group.length * 2;
+        }
+        const [x, y] = [rawX, rawY].map((percentage) => `${percentage}%`);
 
         return (
           <div
