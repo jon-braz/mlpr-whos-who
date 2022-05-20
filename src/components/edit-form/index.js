@@ -56,6 +56,18 @@ const dangerLevelOptions = [
   { id: 'red', label: 'Red' }
 ];
 
+const validate = (animalData) => {
+  const invalid =
+    !animalData.area || animalData.location?.length !== 2 || !animalData.name;
+
+  if (invalid) {
+    alert('Name and Area are mandatory');
+    return Promise.reject(animalData);
+  } else {
+    return Promise.resolve(animalData);
+  }
+};
+
 const EditForm = ({ existingState, onSave, loading, onDelete }) => {
   const [formState, setFormState] = useState(existingState || defaultFormState);
   const [showMap, setShowMap] = useState(false);
@@ -94,7 +106,7 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    onSave(formState);
+    validate(formState).then(onSave);
   };
 
   const showAreaMap = (area) => {

@@ -73,7 +73,7 @@ const Who = ({ name }) => {
                 <EyeIcon /> {animal.howToIdentify}
               </div>
             )}
-            {animal.food?.length && (
+            {animal.food?.length > 0 && (
               <div class={style.row}>
                 <FoodAppleIcon /> {animal.food?.join(', ')}
               </div>
