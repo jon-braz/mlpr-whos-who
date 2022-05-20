@@ -18,6 +18,13 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
         }, {});
         updateAnimals(fetchedAnimals);
       });
+
+      const clearAnimals = () => {
+        updateAnimals([]);
+        locationMap = {};
+      };
+
+      return clearAnimals;
     }
   }, [area]);
 

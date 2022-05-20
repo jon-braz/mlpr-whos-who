@@ -185,9 +185,8 @@ const EditForm = ({ existingState, onSave, loading }) => {
           value={formState['imagePath']}
           onInput={onImageInput('imagePath')}
           type='file'
-          accept='image/*'
+          accept='image/*;capture-camera'
           style='display: none'
-          capture='camera'
         />
       </label>
       <button
