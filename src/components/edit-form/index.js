@@ -5,6 +5,7 @@ import Button from '../button';
 import OverallMap from '../map';
 import Modal from '../modal';
 import style from './style.scss';
+import { SPECIES } from '../../shared/constants';
 
 const defaultFormState = {
   species: 'pig',
@@ -137,10 +138,11 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
         onInput={onInput}
         required
       />
-      <FormInput
+      <FormSelect
         fieldName={'species'}
         formState={formState}
-        onInput={onInput}
+        onChange={onInput}
+        options={SPECIES}
       />
       <label class={style.inputPair} key={'area'}>
         <span class={style.inputLabel}>{formLabels['area']}</span>

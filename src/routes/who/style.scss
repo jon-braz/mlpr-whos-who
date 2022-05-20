@@ -55,5 +55,9 @@
             object-fit: cover;
             aspect-ratio: 3 / 2;
         }
+
+        .groupedAnimalLink + .groupedAnimalLink {
+            margin-left: 5px;
+        }
     }
 }

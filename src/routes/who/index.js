@@ -30,7 +30,7 @@ const Who = ({ name }) => {
   }, [name]);
 
   const groupedAnimalLinks = groupedAnimals.map((animal) => (
-    <Link href={`/who/${animal.id}`}>
+    <Link href={`/who/${animal.id}`} class={style.groupedAnimalLink}>
       <Button style={{ backgroundColor: animal.dangerLevel }}>
         {animal.name}
       </Button>

@@ -16,4 +16,14 @@ export const AREAS = {
   oldfolks: { name: 'Old Folks Block', color: 'grey', id: 'oldfolks' }
 };
 
+export const SPECIES = [
+  { id: 'pig', label: 'Pig' },
+  { id: 'horse', label: 'Horse' },
+  { id: 'donkey', label: 'Donkey' },
+  { id: 'sheep', label: 'Sheep' },
+  { id: 'pony', label: 'Pony' },
+  { id: 'goat', label: 'Goat' },
+  { id: 'chicken', label: 'Chicken' }
+];
+
 export const COLLECTION_ANIMALS = 'animals';
