@@ -35,6 +35,9 @@ const Who = ({ name }) => {
           className={animal.dangerLevel}></Header>
         <div class={`${style.detailsWrapper} ${style[animal.dangerLevel]}`}>
           <div class={style.details}>
+            {animal.imagePath && (
+              <img src={animal.imagePath} class={style.profileImage} />
+            )}
             {animal.dangerReason && (
               <div
                 class={`${style.row} ${
@@ -44,9 +47,6 @@ const Who = ({ name }) => {
                 }`}>
                 <AlertIcon /> {animal.dangerReason}
               </div>
-            )}
-            {animal.imagePath && (
-              <img src={animal.imagePath} class={style.profileImage} />
             )}
             {animal.character && (
               <div class={style.row}>
@@ -61,7 +61,7 @@ const Who = ({ name }) => {
                 <EyeIcon /> {animal.howToIdentify}
               </div>
             )}
-            {animal.food && (
+            {animal.food?.length && (
               <div class={style.row}>
                 <FoodAppleIcon /> {animal.food?.join(', ')}
               </div>

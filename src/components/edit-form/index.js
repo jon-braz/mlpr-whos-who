@@ -7,7 +7,6 @@ import style from './style.scss';
 
 const defaultFormState = {
   species: 'pig',
-  area: 'front',
   dangerLevel: 'green'
 };
 
@@ -72,13 +71,13 @@ const EditForm = ({ existingState, onSave, loading }) => {
 
     const files = Array.from(e.target.files);
 
-    const compressedImage = await readFiles(files, 500, 500);
+    const compressedImages = await readFiles(files, 500, 500);
 
     setFormState({
       ...formState,
       [fieldName]: files.map((file) => file.name),
       imageUpdated: true,
-      imageDataUrl: compressedImage[0],
+      imageDataUrl: compressedImages[0],
       imageName: files.map((file) => file.name)
     });
   };
@@ -123,12 +122,13 @@ const EditForm = ({ existingState, onSave, loading }) => {
         fieldName={'species'}
         formState={formState}
         onInput={onInput}
-        value='pig'
       />
       <label class={style.inputPair} key={'area'}>
         <span class={style.inputLabel}>{formLabels['area']}</span>
         <button type='button' class={style.button} onClick={changeLocation}>
-          {formState.area} ({formState.location.join(', ')})
+          {formState.area
+            ? `${formState.area} (${formState.location?.join(', ')})`
+            : 'Select Area'}
         </button>
       </label>
       <FormSelect
@@ -189,6 +189,15 @@ const EditForm = ({ existingState, onSave, loading }) => {
           style='display: none'
         />
       </label>
+      {(formState.imageDataUrl || formState.imagePath) && (
+        <div class={style.inputPair}>
+          <span class={style.inputLabel}></span>
+          <img
+            src={formState.imageDataUrl || formState.imagePath}
+            class={style.imagePreview}
+          />
+        </div>
+      )}
       <button
         type='submit'
         disabled={loading}

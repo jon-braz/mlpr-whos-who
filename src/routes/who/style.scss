@@ -44,14 +44,16 @@
         }
 
         .dangerOrange {
-            background-color: rgba(orange, 0.3);
+            background-color: $orange-background-faint;
         }
         .dangerRed {
-            background-color: rgba(red, 0.3);
+            background-color: $red-background-faint;
         }
 
         .profileImage {
             max-width: 100%;
+            object-fit: cover;
+            aspect-ratio: 3 / 2;
         }
     }
 }
