@@ -88,7 +88,7 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
 
     const files = Array.from(e.target.files);
 
-    const compressedImages = await readFiles(files, 500, 500);
+    const compressedImages = await readFiles(files, 1000, 1000);
 
     setFormState({
       ...formState,

@@ -72,5 +72,5 @@ const resizeMe = (img, maxWidth, maxHeight) => {
   var ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0, width, height);
 
-  return canvas.toDataURL('image/jpeg', 0.7); // get the data from canvas as 70% JPG (can be also PNG, etc.)
+  return canvas.toDataURL('image/jpeg', 0.8); // get the data from canvas as 70% JPG (can be also PNG, etc.)
 };
