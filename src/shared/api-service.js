@@ -21,11 +21,20 @@ export default class ApiService {
     }));
   }
 
-  static fetchAnimals({ area }) {
-    const q = query(
+  static fetchAnimals({ area, location }) {
+    let queryConditions = [where('area', '==', area)];
+    if (location?.length === 2) {
+      queryConditions = [
+        ...queryConditions,
+        where('location', 'array-contains', location[0])
+      ];
+    }
+
+    let q = query(
       collection(firestore, COLLECTION_ANIMALS),
-      where('area', '==', area)
+      ...queryConditions
     );
+
     return getDocs(q).then((animalDocs) => {
       const animals = animalDocs.docs.map((doc) => ({
         ...doc.data(),
@@ -40,10 +49,10 @@ export default class ApiService {
       return Promise.resolve([]);
     }
 
-    const area = animal.area;
-    const [x, y] = animal.location;
+    const { area, location } = animal;
+    const [x, y] = location;
 
-    return ApiService.fetchAnimals({ area }).then((animals) =>
+    return ApiService.fetchAnimals({ area, location }).then((animals) =>
       animals.filter(
         (fetchedAnimal) =>
           fetchedAnimal.location[0] === x &&
