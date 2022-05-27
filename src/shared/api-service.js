@@ -86,7 +86,7 @@ export default class ApiService {
   static async addAnimalImage(animalId, filename, fileDataUrl) {
     const fileRef = ref(storage, `animals/${animalId}/${filename}`);
 
-    uploadString(fileRef, fileDataUrl, 'data_url');
+    await uploadString(fileRef, fileDataUrl, 'data_url');
     return await getDownloadURL(fileRef);
   }
 }
