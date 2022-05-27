@@ -23,7 +23,8 @@ const Area = ({ area }) => {
       <AreaMap
         area={area}
         showAnimals={true}
-        animalOnClick={animalOnClick}></AreaMap>
+        animalOnClick={animalOnClick}
+        allowRightClick={true}></AreaMap>
     </div>
   );
 };

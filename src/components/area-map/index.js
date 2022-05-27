@@ -1,11 +1,29 @@
 import { useEffect, useState } from 'preact/hooks';
+import {
+  ContextMenuWithData,
+  MenuItem,
+  openContextMenu
+} from 'preact-context-menu';
+
+import Button from '../button';
+import Modal from '../modal';
 import ApiService from '../../shared/api-service';
 import style from './style.scss';
+import OverallMap from '../map';
 
 let locationMap = {};
 
-const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
+const AreaMap = ({
+  area,
+  onClick,
+  animalOnClick,
+  showAnimals,
+  allowRightClick
+}) => {
   const [animals, updateAnimals] = useState([]);
+  const [showMap, setShowMap] = useState(false);
+  const [showArea, setShowArea] = useState(null);
+  const [groupBeingMoved, setGroupBeingMoved] = useState(null);
 
   useEffect(() => {
     if (showAnimals) {
@@ -43,6 +61,39 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
     }
   };
 
+  const openGroupContextMenu = (group) => (event) => {
+    openContextMenu('group-context-menu', { group });
+    event.preventDefault();
+  };
+
+  const moveGroup = (group) => () => {
+    setShowMap(true);
+    setGroupBeingMoved(group);
+    closeContext;
+  };
+
+  const showAreaMap = (area) => {
+    setShowArea(area);
+    setShowMap(false);
+  };
+
+  const setLocation = (position) => {
+    const newArea = showArea;
+    const newLocation = position;
+    setShowArea(null);
+    setGroupBeingMoved(null);
+  };
+
+  const setPairedLocation = (animal) => {
+    setLocation(animal.location);
+  };
+
+  const closeModal = () => {
+    setShowArea(null);
+    setShowMap(false);
+    setGroupBeingMoved(null);
+  };
+
   const AnimalIcon = ({ animal }) => (
     <div
       class={`
@@ -55,7 +106,7 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
   );
 
   const animalGroupIcons = showAnimals
-    ? Object.values(locationMap).map((group) => {
+    ? Object.values(locationMap).map((group, index) => {
         let [rawX, rawY] = group[0].location;
         if (rawX + group.length * 4 > 100) {
           rawX -= group.length * 2;
@@ -67,7 +118,10 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
             class={`${style.animalGroup} ${
               group.length > 1 ? style.multiple : null
             }`}
-            style={{ top: y, left: x }}>
+            style={{ top: y, left: x }}
+            onContextMenu={
+              allowRightClick ? openGroupContextMenu(group) : null
+            }>
             {group.map((animal) => (
               <AnimalIcon animal={animal} />
             ))}
@@ -82,6 +136,35 @@ const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
       class={`${style.map} ${onClick ? style.clickable : null}`}
       onClick={clicked}>
       {animalGroupIcons}
+      {allowRightClick && (
+        <ContextMenuWithData id='group-context-menu'>
+          {({ group }) => (
+            <MenuItem>
+              <Button
+                onClick={moveGroup(group)}
+                style={{ fontSize: '14px', padding: '10px 15px' }}>
+                Move all Animals
+              </Button>
+            </MenuItem>
+          )}
+        </ContextMenuWithData>
+      )}
+
+      {showMap && (
+        <Modal dismiss={closeModal}>
+          <OverallMap onClick={showAreaMap} />
+        </Modal>
+      )}
+
+      {showArea && (
+        <Modal dismiss={closeModal}>
+          <AreaMap
+            area={showArea}
+            showAnimals={true}
+            onClick={setLocation}
+            animalOnClick={setPairedLocation}></AreaMap>
+        </Modal>
+      )}
     </div>
   );
 };
