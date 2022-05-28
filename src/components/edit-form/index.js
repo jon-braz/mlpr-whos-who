@@ -24,7 +24,8 @@ const formLabels = {
   character: 'Character',
   howToIdentify: 'How to Identify',
   about: 'Good-to-Knows',
-  imagePath: 'Image'
+  imagePath: 'Image',
+  medication: 'Medication'
 };
 
 const FormInput = ({ fieldName, formState, onInput, className, ...params }) => (
@@ -205,6 +206,11 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
       <FormInput fieldName={'food'} formState={formState} onInput={onInput} />
       <FormInput
         fieldName={'enrichment'}
+        formState={formState}
+        onInput={onInput}
+      />
+      <FormInput
+        fieldName={'medication'}
         formState={formState}
         onInput={onInput}
       />

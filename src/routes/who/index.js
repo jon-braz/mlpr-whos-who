@@ -8,6 +8,7 @@ import TeddyBearIcon from 'mdi-preact/TeddyBearIcon';
 import AlertIcon from 'mdi-preact/AlertIcon';
 import ArmFlexIcon from 'mdi-preact/ArmFlexIcon';
 import GroupIcon from 'mdi-preact/AccountGroupIcon';
+import MedicationIcon from 'mdi-preact/PillIcon';
 
 import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
@@ -81,6 +82,11 @@ const Who = ({ name }) => {
             {animal.enrichment && (
               <div class={style.row}>
                 <TeddyBearIcon /> {animal.enrichment}
+              </div>
+            )}
+            {animal.medication && (
+              <div class={style.row}>
+                <MedicationIcon /> {animal.medication}
               </div>
             )}
             {groupedAnimals?.length > 0 && (
