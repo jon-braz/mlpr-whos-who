@@ -69,7 +69,9 @@ export default class ApiService {
 
   static async addOrUpdateAnimal(animal) {
     const { imageUpdated, imageDataUrl, ...toAdd } = { ...animal };
-    toAdd.food = toAdd.food?.split(',') || [];
+    toAdd.food = Array.isArray(toAdd.food)
+      ? toAdd.food
+      : toAdd.food?.split(',') || [];
     toAdd.location = toAdd.location?.map((str) => parseInt(str)) || [];
     toAdd.rehomed ||= false;
 

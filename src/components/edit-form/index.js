@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { readFiles } from '../../shared/image-preprocessor';
 import AreaMap from '../area-map';
 import Button from '../button';
@@ -6,6 +6,7 @@ import OverallMap from '../map';
 import Modal from '../modal';
 import style from './style.scss';
 import { SPECIES } from '../../shared/constants';
+import ApiService from '../../shared/api-service';
 
 const defaultFormState = {
   species: 'pig',
@@ -74,6 +75,15 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
   const [showMap, setShowMap] = useState(false);
   const [showArea, setShowArea] = useState(null);
   const [processingImage, setProcessingImage] = useState(false);
+  const [groupedAnimals, setGroupedAnimals] = useState([]);
+  const [moveWith, setMoveWith] = useState({});
+
+  useEffect(async () => {
+    setGroupedAnimals(
+      await ApiService.getGroupedAnimals({ animal: existingState })
+    );
+    setMoveWith({});
+  }, [existingState]);
 
   const onInput = (fieldName) => (e) => {
     setFormState({ ...formState, [fieldName]: e.target.value });
@@ -105,9 +115,29 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
     setFormState({ ...formState, [fieldName]: !formState[fieldName] });
   };
 
+  const moveAnimal = ({ animal, area, location }) => {
+    const updatedAnimal = { ...animal, area, location };
+    ApiService.addOrUpdateAnimal(updatedAnimal);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    validate(formState).then(onSave);
+    validate(formState)
+      .then(onSave)
+      .then(() => {
+        Object.keys(moveWith).forEach((name) => {
+          if (moveWith[name]) {
+            const linkedAnimal = groupedAnimals.find(
+              (animal) => animal.name === name
+            );
+            moveAnimal({
+              animal: linkedAnimal,
+              area: formState.area,
+              location: formState.location
+            });
+          }
+        });
+      });
   };
 
   const showAreaMap = (area) => {
@@ -127,6 +157,10 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
 
   const setPairedLocation = (animal) => {
     setLocation(animal.location);
+  };
+
+  const toggleMoveWith = (name) => () => {
+    setMoveWith({ ...moveWith, [name]: !moveWith[name] });
   };
 
   const closeModal = () => {
@@ -164,6 +198,15 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
     }
   };
 
+  const moveWithCheckboxes = groupedAnimals.map((animal) => (
+    <Button
+      style={{ backgroundColor: moveWith[animal.name] ? 'green' : 'grey' }}
+      onClick={toggleMoveWith(animal.name)}
+      type='button'>
+      {animal.name}
+    </Button>
+  ));
+
   return (
     <form onSubmit={onSubmit}>
       <FormInput
@@ -186,6 +229,12 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
             : 'Select Area'}
         </button>
       </label>
+      {groupedAnimals?.length > 0 && (
+        <div class={style.inputPair}>
+          <span class={style.inputLabel}>Move With</span>
+          <div>{moveWithCheckboxes}</div>
+        </div>
+      )}
       <FormSelect
         fieldName={'dangerLevel'}
         formState={formState}
