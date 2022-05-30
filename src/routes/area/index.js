@@ -18,7 +18,7 @@ const Area = ({ area }) => {
         title={areaTitle}
         backLink='/'
         backgroundColor={areaColor}
-        addLink={true}
+        showMenu={true}
       />
       <AreaMap
         area={area}

@@ -24,7 +24,7 @@ const Edit = ({ name }) => {
 
   const onSave = (updatedAnimal) => {
     setLoading(true);
-    ApiService.addOrUpdateAnimal(updatedAnimal).then(
+    return ApiService.addOrUpdateAnimal(updatedAnimal).then(
       () => {
         setLoading(false);
         route(`/who/${updatedAnimal.name.toLowerCase()}`);
@@ -45,7 +45,7 @@ const Edit = ({ name }) => {
 
   const onDelete = () => {
     const area = formState.area;
-    ApiService.deleteAnimal(name).then(() =>
+    return ApiService.deleteAnimal(name).then(() =>
       area ? route(`/area/${area}`) : route('/')
     );
   };

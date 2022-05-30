@@ -21,8 +21,13 @@ export default class ApiService {
     }));
   }
 
-  static fetchAnimals({ area, location }) {
-    let queryConditions = [where('area', '==', area)];
+  static fetchAnimals({ area, location, rehomed = false }) {
+    let queryConditions = [where('rehomed', '==', rehomed)];
+
+    if (area) {
+      queryConditions = [...queryConditions, where('area', '==', area)];
+    }
+
     if (location?.length === 2) {
       queryConditions = [
         ...queryConditions,
@@ -66,6 +71,8 @@ export default class ApiService {
     const { imageUpdated, imageDataUrl, ...toAdd } = { ...animal };
     toAdd.food = toAdd.food?.split(',') || [];
     toAdd.location = toAdd.location?.map((str) => parseInt(str)) || [];
+    toAdd.rehomed ||= false;
+
     const id = toAdd.name?.toLowerCase().replaceAll(' ', '');
     let imagePath;
 

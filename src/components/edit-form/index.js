@@ -143,6 +143,27 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
     }
   };
 
+  const confirmToggleRehome = () => {
+    const rehoming = !formState.rehomed;
+    const message = rehoming
+      ? `Please confirm ${formState.name} is being rehomed?`
+      : `Bring ${formState.name} back to the farm?`;
+    const confirmed = window.confirm(message);
+
+    if (confirmed) {
+      const finalFormState = { ...formState, rehomed: rehoming };
+      setFormState(finalFormState);
+
+      onSave(finalFormState)?.then?.(() =>
+        alert(
+          rehoming
+            ? `${finalFormState.name} was rehomed!`
+            : `${finalFormState.name} was brought back to the farm`
+        )
+      );
+    }
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <FormInput
@@ -250,6 +271,15 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
           class={`${style.button} ${style.deleteBtn}`}
           onClick={confirmDelete}>
           Delete
+        </Button>
+      )}
+      {onDelete && (
+        <Button
+          type='button'
+          disabled={loading}
+          class={`${style.button} ${style.rehomeBtn}`}
+          onClick={confirmToggleRehome}>
+          {formState.rehomed ? 'Undo Rehoming' : 'Rehome!'}
         </Button>
       )}
       {showMap && (

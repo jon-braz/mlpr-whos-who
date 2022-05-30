@@ -1,9 +1,19 @@
+import { route } from 'preact-router';
 import style from './style.scss';
 
-const Button = ({ children, ...props }) => (
-  <button class={style.button} {...props}>
-    {children}
-  </button>
-);
+const Button = ({ children, href, onClick, ...props }) => {
+  const btnClick = () => {
+    if (onClick) {
+      onClick();
+    } else if (href) {
+      route(href);
+    }
+  };
+  return (
+    <button class={style.button} onClick={btnClick} {...props}>
+      {children}
+    </button>
+  );
+};
 
 export default Button;

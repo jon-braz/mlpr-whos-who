@@ -3,6 +3,7 @@ import { BackIcon } from '../icons';
 import PencilIcon from 'mdi-preact/PencilIcon';
 import AddIcon from 'mdi-preact/AddIcon';
 import style from './style.scss';
+import BurgerMenu from '../burger-menu';
 
 const Header = ({
   title,
@@ -10,6 +11,7 @@ const Header = ({
   mainColor,
   editLink,
   addLink,
+  showMenu,
   className,
   children
 }) => {
@@ -33,6 +35,7 @@ const Header = ({
           <AddIcon class={style.editIcon}></AddIcon>
         </Link>
       )}
+      {showMenu && <BurgerMenu class={style.burgerMenu}></BurgerMenu>}
     </header>
   );
 };

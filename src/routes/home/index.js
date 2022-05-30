@@ -11,7 +11,7 @@ const navigateToArea = (area) => {
 
 const Home = () => (
   <div class={style.home}>
-    <Header addLink={true}>
+    <Header showMenu={true}>
       <PigIcon class={style.animalIcon} />
       <h1 class={style.title}>Piggy Map</h1>
     </Header>
