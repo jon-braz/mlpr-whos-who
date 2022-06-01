@@ -6,10 +6,13 @@ import style from './style.scss';
 
 const Rehomed = () => {
   const [animals, updateAnimals] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     ApiService.fetchAnimals({ rehomed: true }).then((fetchedAnimals) => {
       updateAnimals(fetchedAnimals);
+      setLoading(false);
     });
   }, []);
 
@@ -27,7 +30,9 @@ const Rehomed = () => {
     <div class={style.rehomed}>
       <Header showMenu={true} title='Rehomed Animals' backLink='/' />
       <div class={style.content}>
-        {animalList?.length ? animalList : <p>No rehomed animals found</p>}
+        {loading && <p>Loading...</p>}
+        {!loading &&
+          (animalList?.length ? animalList : <p>No rehomed animals found</p>)}
       </div>
     </div>
   );
