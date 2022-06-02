@@ -1,0 +1,28 @@
+@import '../../shared/defaults.scss';
+
+.loader {
+    padding: 20px 15px;
+}
+
+.loginContainer {
+    padding: 20px 15px;
+    .row {
+        display: flex;
+        flex-direction: row;
+
+        > span {
+            flex-basis: 30%;
+        }
+
+        + .row {
+            margin-top: 20px;
+        }
+    }
+
+    .errorMsg {
+        padding: 5px 10px;
+        background-color: $red-background-faint;
+        border-radius: 10px;
+    }
+
+}

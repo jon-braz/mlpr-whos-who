@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { enableIndexedDbPersistence, getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,3 +22,5 @@ export const firestore = getFirestore(app);
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 export const storage = getStorage(app);
+
+export const auth = getAuth(app);

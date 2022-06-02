@@ -9,6 +9,8 @@ import Add from '../routes/add';
 import Edit from '../routes/edit';
 import Rehomed from '../routes/rehomed';
 import Install from '../routes/install';
+import Login from '../routes/login';
+import Logout from '../routes/logout';
 
 const App = () => (
   <div id='app' class={style.app}>
@@ -20,6 +22,8 @@ const App = () => (
       <Edit path='/edit/:name' />
       <Rehomed path='/rehomed' />
       <Install path='/install' />
+      <Login path='/login' />
+      <Logout path='/logout' />
     </Router>
   </div>
 );
