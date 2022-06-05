@@ -79,6 +79,10 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
   const [moveWith, setMoveWith] = useState({});
 
   useEffect(async () => {
+    // Only fetch grouped animals when editing
+    if (!onDelete) {
+      return;
+    }
     setGroupedAnimals(
       await ApiService.getGroupedAnimals({ animal: existingState })
     );

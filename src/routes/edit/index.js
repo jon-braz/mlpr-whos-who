@@ -17,6 +17,13 @@ const Edit = ({ name }) => {
     authenticate({
       permissions: [PERMISSIONS.write],
       redirectUrl: getCurrentUrl()
+    }).then((hasPermissions) => {
+      if (!hasPermissions) {
+        alert(
+          `You don't have permission to edit animals. Please contact Jon for support.`
+        );
+        route(`/who/${name}`);
+      }
     });
   }, []);
 

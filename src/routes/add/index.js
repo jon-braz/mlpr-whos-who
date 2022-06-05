@@ -1,4 +1,4 @@
-import { getCurrentUrl } from 'preact-router';
+import { getCurrentUrl, route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import EditForm from '../../components/edit-form';
 import Header from '../../components/header';
@@ -16,6 +16,13 @@ const Add = () => {
     authenticate({
       permissions: [PERMISSIONS.write],
       redirectUrl: getCurrentUrl()
+    }).then((hasPermissions) => {
+      if (!hasPermissions) {
+        alert(
+          `You don't have permission to add animals. Please contact Jon for support.`
+        );
+        route('/');
+      }
     });
   }, []);
 

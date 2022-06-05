@@ -12,7 +12,7 @@ export const authenticate = ({ permissions, redirectUrl }) => {
 
   if (!currentUserId) {
     redirectToLogin(redirectUrl);
-    return Promise.resolve(false);
+    return Promise.resolve(true);
   }
   if (!permissions?.length) {
     return Promise.resolve(true);
@@ -21,15 +21,9 @@ export const authenticate = ({ permissions, redirectUrl }) => {
   return ApiService.getUser(currentUserId)
     .then((user) => {
       const allowed = permissions.every((permission) => user[permission]);
-      if (!allowed) {
-        redirectToLogin(redirectUrl);
-      }
-
       return allowed;
     })
     .catch(() => {
-      redirectToLogin(redirectUrl);
-
       return false;
     });
 };
