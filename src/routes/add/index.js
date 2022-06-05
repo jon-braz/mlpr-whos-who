@@ -1,13 +1,23 @@
-import { useState } from 'preact/hooks';
+import { getCurrentUrl } from 'preact-router';
+import { useEffect, useState } from 'preact/hooks';
 import EditForm from '../../components/edit-form';
 import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
+import { authenticate } from '../../shared/auth-guard';
+import { PERMISSIONS } from '../../shared/constants';
 import style from './style.scss';
 
 const Add = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
   const [state, setState] = useState(null);
+
+  useEffect(() => {
+    authenticate({
+      permissions: [PERMISSIONS.write],
+      redirectUrl: getCurrentUrl()
+    });
+  }, []);
 
   const onSave = (animal) => {
     setLoading(true);
