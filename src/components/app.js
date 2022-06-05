@@ -11,6 +11,7 @@ import Rehomed from '../routes/rehomed';
 import Install from '../routes/install';
 import Login from '../routes/login';
 import Logout from '../routes/logout';
+import Register from '../routes/register';
 
 const App = () => (
   <div id='app' class={style.app}>
@@ -24,6 +25,7 @@ const App = () => (
       <Install path='/install' />
       <Login path='/login' />
       <Logout path='/logout' />
+      <Register path='/register' />
     </Router>
   </div>
 );

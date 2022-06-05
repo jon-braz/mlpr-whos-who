@@ -9,16 +9,47 @@ import {
   setDoc,
   where
 } from 'firebase/firestore';
-import { COLLECTION_ANIMALS } from './constants';
+import { COLLECTION_ANIMALS, COLLECTION_USERS, PERMISSIONS } from './constants';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
+const parseDoc = (doc) => ({
+  ...doc.data(),
+  id: doc.id
+});
+
 export default class ApiService {
+  static getUsers() {
+    return getDocs(collection(firestore, COLLECTION_USERS)).then((userDocs) => {
+      const users = userDocs.docs.map(parseDoc);
+
+      return users;
+    });
+  }
+
+  static getUser(uid) {
+    const docRef = doc(firestore, COLLECTION_USERS, uid);
+    return getDoc(docRef).then(parseDoc);
+  }
+
+  static addOrUpdateUser = (user) => {
+    const { uid, ...toAdd } = user;
+
+    const usersCollction = collection(firestore, COLLECTION_USERS);
+
+    return setDoc(doc(usersCollction, uid), toAdd);
+  };
+
+  static updateUserRoles = ({ user, admin = false, writer = false }) => {
+    ApiService.addOrUpdateUser({
+      ...user,
+      [PERMISSIONS.admin]: admin,
+      [PERMISSIONS.writer]: writer
+    });
+  };
+
   static fetchAnimal({ name }) {
     const docRef = doc(firestore, COLLECTION_ANIMALS, name);
-    return getDoc(docRef).then((animalDoc) => ({
-      ...animalDoc.data(),
-      id: animalDoc.id
-    }));
+    return getDoc(docRef).then(parseDoc);
   }
 
   static fetchAnimals({ area, location, rehomed = false }) {
@@ -41,10 +72,7 @@ export default class ApiService {
     );
 
     return getDocs(q).then((animalDocs) => {
-      const animals = animalDocs.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      }));
+      const animals = animalDocs.docs.map(parseDoc);
       return animals;
     });
   }

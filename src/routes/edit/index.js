@@ -1,8 +1,10 @@
-import { route } from 'preact-router';
+import { getCurrentUrl, route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import EditForm from '../../components/edit-form';
 import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
+import { authenticate } from '../../shared/auth-guard';
+import { PERMISSIONS } from '../../shared/constants';
 import style from './style.scss';
 
 const Edit = ({ name }) => {
@@ -10,6 +12,13 @@ const Edit = ({ name }) => {
   const [status, setStatus] = useState(null);
   const [state, setState] = useState(null);
   const [formState, setFormState] = useState(null);
+
+  useEffect(() => {
+    authenticate({
+      permissions: [PERMISSIONS.write],
+      redirectUrl: getCurrentUrl()
+    });
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -30,9 +39,20 @@ const Edit = ({ name }) => {
         route(`/who/${updatedAnimal.name.toLowerCase()}`);
       },
       (error) => {
+        const { code } = error;
+        console.log(JSON.stringify(error));
+
         setLoading(false);
-        setStatus(`Error updating ${updatedAnimal.name}`);
         setState('error');
+
+        switch (code) {
+          case 'permission-denied':
+            setStatus('You must be logged in to update an animal');
+            break;
+          default:
+            setStatus(`Error updating ${updatedAnimal.name}`);
+        }
+
         console.error('Error when updating animal: ', error);
 
         setTimeout(() => {

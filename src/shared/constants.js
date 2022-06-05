@@ -27,3 +27,9 @@ export const SPECIES = [
 ];
 
 export const COLLECTION_ANIMALS = 'animals';
+export const COLLECTION_USERS = 'users';
+
+export const PERMISSIONS = {
+  write: 'writer',
+  admin: 'admin'
+};

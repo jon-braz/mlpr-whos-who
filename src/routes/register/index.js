@@ -1,14 +1,16 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { Link, route } from 'preact-router';
 import { useState } from 'preact/hooks';
 
 import { auth } from '../../shared/firebase';
 import Header from '../../components/header';
 import style from './style.scss';
+import ApiService from '../../shared/api-service';
 
-const Login = ({ matches }) => {
+const Register = ({ matches }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
 
   const loggedIn = !!auth.currentUser;
@@ -17,7 +19,6 @@ const Login = ({ matches }) => {
 
   if (loggedIn) {
     route(redirectUrl || '/');
-    // TODO: Set up redirect url so we can intercept page loads with login
     return;
   }
 
@@ -28,24 +29,16 @@ const Login = ({ matches }) => {
   const onSubmit = (event) => {
     event.preventDefault();
     setErrorMsg(null);
-    signInWithEmailAndPassword(auth, username, password)
+    createUserWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
-        // Signed in -> route to home
-        // TODO: Set up redirect url so we can intercept page loads with login
+        // Add their name
+        updateProfile(userCredential.user, { displayName });
+
+        // Signed in -> redirect to given target or home
         route(redirectUrl || '/');
       })
       .catch((error) => {
-        const errorCode = error.code;
-
-        if (
-          errorCode === 'auth/wrong-password' ||
-          errorCode === 'auth/invalid-email' ||
-          errorCode === 'auth/user-not-found'
-        ) {
-          setErrorMsg('The e-mail or password you entered is incorrect.');
-        } else {
-          setErrorMsg('There was an error logging in. Please try again later.');
-        }
+        setErrorMsg(error.message);
       });
   };
 
@@ -56,10 +49,19 @@ const Login = ({ matches }) => {
       <div class={style.loginContainer}>
         <form onSubmit={onSubmit}>
           <label class={style.row}>
+            <span>Name: </span>
+            <input
+              type='text'
+              value={displayName}
+              required
+              onInput={handleInput(setDisplayName)}></input>
+          </label>
+          <label class={style.row}>
             <span>E-Mail: </span>
             <input
               type='text'
               value={username}
+              required
               onInput={handleInput(setUsername)}></input>
           </label>
           <label class={style.row}>
@@ -67,6 +69,7 @@ const Login = ({ matches }) => {
             <input
               type='password'
               value={password}
+              required
               onInput={handleInput(setPassword)}></input>
           </label>
           {errorMsg && (
@@ -77,15 +80,15 @@ const Login = ({ matches }) => {
           )}
           <div class={style.row}>
             <span></span>
-            <button type='submit'>Log In</button>
+            <button type='submit'>Register</button>
           </div>
           <div class={style.row}>
             <span></span>
             <Link
-              href={`/register${
+              href={`/login${
                 redirectUrl ? '?redirectUrl=' + redirectUrl : ''
               }`}>
-              No account? Register here
+              Have an account already? Log in here.
             </Link>
           </div>
         </form>
@@ -94,4 +97,4 @@ const Login = ({ matches }) => {
   );
 };
 
-export default Login;
+export default Register;
