@@ -18,9 +18,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service ('db' in cloud documentation)
 export const firestore = getFirestore(app);
-//TODO: Figure out how to enable offline cache in a way that doesn't break the netlify pipeline
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 export const storage = getStorage(app);
 
+// Get a reference to the global auth object
 export const auth = getAuth(app);
+
+// Enabled offline data persistence (any changes when offline will be saved locally and sent to server when connected)
+enableIndexedDbPersistence(firestore).catch((err) => {
+  if (err.code == 'failed-precondition') {
+    // Multiple tabs open, persistence can only be enabled
+    // in one tab at a a time.
+  } else if (err.code == 'unimplemented') {
+    // The current browser does not support all of the
+    // features required to enable persistence
+  }
+});
