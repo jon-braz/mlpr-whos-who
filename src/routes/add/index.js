@@ -5,6 +5,7 @@ import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
 import { authenticate } from '../../shared/auth-guard';
 import { PERMISSIONS } from '../../shared/constants';
+import { warningMessageKeys } from '../../shared/warning-messages';
 import style from './style.scss';
 
 const Add = () => {
@@ -15,7 +16,8 @@ const Add = () => {
   useEffect(() => {
     authenticate({
       permissions: [PERMISSIONS.write],
-      redirectUrl: getCurrentUrl()
+      redirectUrl: getCurrentUrl(),
+      warningMessage: warningMessageKeys.loginToEdit
     }).then((hasPermissions) => {
       if (!hasPermissions) {
         alert(

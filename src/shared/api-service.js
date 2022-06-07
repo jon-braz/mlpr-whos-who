@@ -34,16 +34,14 @@ export default class ApiService {
   static addOrUpdateUser = (user) => {
     const { uid, ...toAdd } = user;
 
-    const usersCollction = collection(firestore, COLLECTION_USERS);
-
-    return setDoc(doc(usersCollction, uid), toAdd);
+    return setDoc(doc(firestore, COLLECTION_USERS, uid), toAdd);
   };
 
   static updateUserRoles = ({ user, admin = false, writer = false }) => {
-    ApiService.addOrUpdateUser({
+    return ApiService.addOrUpdateUser({
       ...user,
       [PERMISSIONS.admin]: admin,
-      [PERMISSIONS.writer]: writer
+      [PERMISSIONS.write]: writer
     });
   };
 

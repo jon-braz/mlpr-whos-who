@@ -8,6 +8,7 @@ const Sidebar = ({ open }) => {
 
   return (
     <div class={`${style.sidebar} ${open ? style.open : null}`}>
+      <Link href='/'>Home</Link>
       <Link href='/add'>Add Animal</Link>
       <Link href='/rehomed'>Rehomed Animals</Link>
       <Link href='/install'>Install App</Link>

@@ -5,6 +5,8 @@ import { useState } from 'preact/hooks';
 import { auth } from '../../shared/firebase';
 import Header from '../../components/header';
 import style from './style.scss';
+import { buildRoute } from '../../shared/helpers';
+import { warningMessages } from '../../shared/warning-messages';
 
 const Login = ({ matches }) => {
   const [username, setUsername] = useState('');
@@ -13,7 +15,7 @@ const Login = ({ matches }) => {
 
   const loggedIn = !!auth.currentUser;
 
-  const { redirectUrl } = matches;
+  const { redirectUrl, warningMessage: warningMessageKey } = matches;
 
   if (loggedIn) {
     route(redirectUrl || '/');
@@ -49,11 +51,14 @@ const Login = ({ matches }) => {
       });
   };
 
+  const warningMessage = warningMessages[warningMessageKey] || '';
+
   return (
     <div class={style.login}>
       <Header showMenu={true} title='Login' />
 
       <div class={style.loginContainer}>
+        {warningMessage && <p class={style.warningMessage}>{warningMessage}</p>}
         <form onSubmit={onSubmit}>
           <label class={style.row}>
             <span>E-Mail: </span>
@@ -81,10 +86,7 @@ const Login = ({ matches }) => {
           </div>
           <div class={style.row}>
             <span></span>
-            <Link
-              href={`/register${
-                redirectUrl ? '?redirectUrl=' + redirectUrl : ''
-              }`}>
+            <Link href={buildRoute('/register', { redirectUrl })}>
               No account? Register here
             </Link>
           </div>

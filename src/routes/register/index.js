@@ -6,6 +6,8 @@ import { auth } from '../../shared/firebase';
 import Header from '../../components/header';
 import style from './style.scss';
 import ApiService from '../../shared/api-service';
+import { buildRoute } from '../../shared/helpers';
+import { warningMessages } from '../../shared/warning-messages';
 
 const Register = ({ matches }) => {
   const [username, setUsername] = useState('');
@@ -15,7 +17,7 @@ const Register = ({ matches }) => {
 
   const loggedIn = !!auth.currentUser;
 
-  const { redirectUrl } = matches;
+  const { redirectUrl, warningMessage: warningMessageKey } = matches;
 
   if (loggedIn) {
     route(redirectUrl || '/');
@@ -31,22 +33,33 @@ const Register = ({ matches }) => {
     setErrorMsg(null);
     createUserWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
-        // Add their name
-        updateProfile(userCredential.user, { displayName });
+        const { user } = userCredential;
 
-        // Signed in -> redirect to given target or home
-        route(redirectUrl || '/');
+        // Add their name
+        updateProfile(user, { displayName });
+
+        // Set their roles (all users are writers by default)
+        ApiService.updateUserRoles({
+          user: { email: user.email, displayName, uid: user.uid },
+          writer: true
+        }).then(() => {
+          // Account is ready -> redirect to given target or home
+          route(redirectUrl || '/');
+        });
       })
       .catch((error) => {
         setErrorMsg(error.message);
       });
   };
 
+  const warningMessage = warningMessages[warningMessageKey] || '';
+
   return (
     <div class={style.login}>
       <Header showMenu={true} title='Login' />
 
       <div class={style.loginContainer}>
+        {warningMessage && <p class={style.warningMessage}>{warningMessage}</p>}
         <form onSubmit={onSubmit}>
           <label class={style.row}>
             <span>Name: </span>
@@ -84,10 +97,7 @@ const Register = ({ matches }) => {
           </div>
           <div class={style.row}>
             <span></span>
-            <Link
-              href={`/login${
-                redirectUrl ? '?redirectUrl=' + redirectUrl : ''
-              }`}>
+            <Link href={buildRoute('/login', { redirectUrl })}>
               Have an account already? Log in here.
             </Link>
           </div>
