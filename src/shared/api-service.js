@@ -117,7 +117,7 @@ export default class ApiService {
   }
 
   static async prepAnimalForWrite(animal) {
-    const { imageUpdated, imageDataUrl, ...toAdd } = { ...animal };
+    const { imageUpdated, imageDataUrl, id, ...toAdd } = { ...animal };
     toAdd.food = Array.isArray(toAdd.food)
       ? toAdd.food
       : toAdd.food?.split(',') || [];
