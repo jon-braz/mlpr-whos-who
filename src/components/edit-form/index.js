@@ -121,7 +121,7 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
 
   const moveAnimal = ({ animal, area, location }) => {
     const updatedAnimal = { ...animal, area, location };
-    ApiService.addOrUpdateAnimal(updatedAnimal);
+    ApiService.updateAnimal(updatedAnimal);
   };
 
   const onSubmit = (e) => {

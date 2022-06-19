@@ -8,7 +8,7 @@ import { PERMISSIONS } from '../../shared/constants';
 import { warningMessageKeys } from '../../shared/warning-messages';
 import style from './style.scss';
 
-const Edit = ({ name }) => {
+const Edit = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
   const [state, setState] = useState(null);
@@ -24,28 +24,28 @@ const Edit = ({ name }) => {
         alert(
           `You don't have permission to edit animals. Please contact Jon for support.`
         );
-        route(`/who/${name}`);
+        route(`/who/${id}`);
       }
     });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     setLoading(true);
-    ApiService.fetchAnimal({ name }).then((animal) => {
+    ApiService.fetchAnimal({ id }).then((animal) => {
       setFormState({
         ...animal,
         food: animal.food?.join(',') || null
       });
       setLoading(false);
     });
-  }, [name]);
+  }, [id]);
 
   const onSave = (updatedAnimal) => {
     setLoading(true);
-    return ApiService.addOrUpdateAnimal(updatedAnimal).then(
+    return ApiService.updateAnimal(updatedAnimal).then(
       () => {
         setLoading(false);
-        route(`/who/${updatedAnimal.name.toLowerCase()}`);
+        route(`/who/${updatedAnimal.id}`);
       },
       (error) => {
         const { code } = error;
@@ -74,7 +74,7 @@ const Edit = ({ name }) => {
 
   const onDelete = () => {
     const area = formState.area;
-    return ApiService.deleteAnimal(name).then(() =>
+    return ApiService.deleteAnimal(id).then(() =>
       area ? route(`/area/${area}`) : route('/')
     );
   };
@@ -83,7 +83,7 @@ const Edit = ({ name }) => {
     <div class={style.add}>
       <Header
         title={`Edit ${formState?.name || '...'}`}
-        backLink={`/who/${name}`}
+        backLink={`/who/${id}`}
       />
       {formState && (
         <EditForm

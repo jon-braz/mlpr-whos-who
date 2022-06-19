@@ -17,18 +17,18 @@ import style from './style.scss';
 import { Link } from 'preact-router';
 import Button from '../../components/button';
 
-const Who = ({ name }) => {
+const Who = ({ id }) => {
   const [animal, setAnimal] = useState({});
   const [groupedAnimals, setGroupedAnimals] = useState([]);
 
   useEffect(() => {
-    ApiService.fetchAnimal({ name }).then(async (fetchedAnimal) => {
+    ApiService.fetchAnimal({ id }).then(async (fetchedAnimal) => {
       setAnimal(fetchedAnimal);
       setGroupedAnimals(
         await ApiService.getGroupedAnimals({ animal: fetchedAnimal })
       );
     });
-  }, [name]);
+  }, [id]);
 
   const groupedAnimalLinks = groupedAnimals.map((animal) => (
     <Link href={`/who/${animal.id}`} class={style.groupedAnimalLink}>
@@ -42,7 +42,7 @@ const Who = ({ name }) => {
     animal.name && (
       <div class={style.who}>
         <Header
-          title={animal.name || name}
+          title={animal.name || ''}
           backLink={`/area/${animal.area}`}
           editLink={`/edit/${animal.id}`}
           className={animal.dangerLevel}></Header>

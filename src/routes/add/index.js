@@ -30,7 +30,7 @@ const Add = () => {
 
   const onSave = (animal) => {
     setLoading(true);
-    ApiService.addOrUpdateAnimal(animal).then(
+    ApiService.addAnimal(animal).then(
       () => {
         setLoading(false);
         setStatus(`${animal.name} added`);

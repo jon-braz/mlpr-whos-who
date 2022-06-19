@@ -1,5 +1,6 @@
 import { firestore, storage } from './firebase';
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -18,6 +19,10 @@ const parseDoc = (doc) => ({
 });
 
 export default class ApiService {
+  /**
+   * User-management
+   */
+
   static getUsers() {
     return getDocs(collection(firestore, COLLECTION_USERS)).then((userDocs) => {
       const users = userDocs.docs.map(parseDoc);
@@ -45,8 +50,12 @@ export default class ApiService {
     });
   };
 
-  static fetchAnimal({ name }) {
-    const docRef = doc(firestore, COLLECTION_ANIMALS, name);
+  /**
+   * Animal management
+   */
+
+  static fetchAnimal({ id }) {
+    const docRef = doc(firestore, COLLECTION_ANIMALS, id);
     return getDoc(docRef).then(parseDoc);
   }
 
@@ -93,15 +102,29 @@ export default class ApiService {
     );
   }
 
-  static async addOrUpdateAnimal(animal) {
+  static async addAnimal(animal) {
+    const toAdd = await ApiService.prepAnimalForWrite(animal);
+    const animalsCollection = collection(firestore, COLLECTION_ANIMALS);
+
+    return addDoc(animalsCollection, toAdd);
+  }
+
+  static async updateAnimal(animal) {
+    const toAdd = await ApiService.prepAnimalForWrite(animal);
+    const animalsCollection = collection(firestore, COLLECTION_ANIMALS);
+
+    return setDoc(doc(animalsCollection, animal.id), toAdd);
+  }
+
+  static async prepAnimalForWrite(animal) {
     const { imageUpdated, imageDataUrl, ...toAdd } = { ...animal };
     toAdd.food = Array.isArray(toAdd.food)
       ? toAdd.food
       : toAdd.food?.split(',') || [];
     toAdd.location = toAdd.location?.map((str) => parseInt(str)) || [];
     toAdd.rehomed ||= false;
+    delete toAdd.id;
 
-    const id = toAdd.name?.toLowerCase().replaceAll(' ', '');
     let imagePath;
 
     if (imageUpdated && imageDataUrl) {
@@ -116,9 +139,7 @@ export default class ApiService {
       delete toAdd.dangerReason;
     }
 
-    const animalsCollection = collection(firestore, COLLECTION_ANIMALS);
-
-    return setDoc(doc(animalsCollection, id), toAdd);
+    return toAdd;
   }
 
   static deleteAnimal(id) {

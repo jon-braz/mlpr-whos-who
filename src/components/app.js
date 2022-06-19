@@ -18,9 +18,9 @@ const App = () => (
     <Router>
       <Home path='/' />
       <Area path='/area/:area' />
-      <Who path='/who/:name' />
+      <Who path='/who/:id' />
       <Add path='/add' />
-      <Edit path='/edit/:name' />
+      <Edit path='/edit/:id' />
       <Rehomed path='/rehomed' />
       <Install path='/install' />
       <Login path='/login' />
