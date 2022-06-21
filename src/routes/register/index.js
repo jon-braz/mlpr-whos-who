@@ -38,10 +38,10 @@ const Register = ({ matches }) => {
         // Add their name
         updateProfile(user, { displayName });
 
-        // Set their roles (all users are writers by default)
+        // Set their roles (new users have no write/admin permissions)
+        // but this way there's an entry we can modify later
         ApiService.updateUserRoles({
-          user: { email: user.email, displayName, uid: user.uid },
-          writer: true
+          user: { email: user.email, displayName, uid: user.uid }
         }).then(() => {
           // Account is ready -> redirect to given target or home
           route(redirectUrl || '/');
