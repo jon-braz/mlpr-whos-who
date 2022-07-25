@@ -1,7 +1,8 @@
-import { getAuth } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { route } from 'preact-router';
 
 import ApiService from './api-service';
+import { auth } from './firebase';
 import { buildRoute } from './helpers';
 
 const redirectToLogin = (redirectUrl, warningMessage) => {
@@ -9,22 +10,24 @@ const redirectToLogin = (redirectUrl, warningMessage) => {
 };
 
 export const authenticate = ({ permissions, redirectUrl, warningMessage }) => {
-  const currentUserId = getAuth().currentUser?.uid;
+  return new Promise((resolve) => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        redirectToLogin(redirectUrl, warningMessage);
+        return;
+      }
 
-  if (!currentUserId) {
-    redirectToLogin(redirectUrl, warningMessage);
-    return Promise.resolve(true);
-  }
-  if (!permissions?.length) {
-    return Promise.resolve(true);
-  }
+      if (!permissions?.length) {
+        resolve(true);
+        return;
+      }
 
-  return ApiService.getUser(currentUserId)
-    .then((user) => {
-      const allowed = permissions.every((permission) => user[permission]);
-      return allowed;
-    })
-    .catch(() => {
-      return false;
+      ApiService.getUser(user.uid)
+        .then((user) => {
+          const allowed = permissions.every((permission) => user[permission]);
+          resolve(allowed);
+        })
+        .catch(() => resolve(false));
     });
+  });
 };
