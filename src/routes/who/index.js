@@ -16,10 +16,16 @@ import ApiService from '../../shared/api-service';
 import style from './style.scss';
 import { Link } from 'preact-router';
 import Button from '../../components/button';
+import { verifyUserIsLoggedIn } from '../../shared/auth-guard';
 
 const Who = ({ id }) => {
   const [animal, setAnimal] = useState({});
   const [groupedAnimals, setGroupedAnimals] = useState([]);
+
+  // Protected route - user must be logged in
+  useEffect(() => {
+    verifyUserIsLoggedIn();
+  }, [id]);
 
   useEffect(() => {
     ApiService.fetchAnimal({ id }).then(async (fetchedAnimal) => {

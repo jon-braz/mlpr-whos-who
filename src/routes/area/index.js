@@ -3,8 +3,15 @@ import { AREAS } from '../../shared/constants';
 import style from './style.scss';
 import AreaMap from '../../components/area-map';
 import { route } from 'preact-router';
+import { useEffect } from 'preact/hooks';
+import { verifyUserIsLoggedIn } from '../../shared/auth-guard';
 
 const Area = ({ area }) => {
+  // Protected route - user must be logged in
+  useEffect(() => {
+    verifyUserIsLoggedIn();
+  }, [area]);
+
   const areaTitle = AREAS[area].name;
   const areaColor = AREAS[area].color;
 

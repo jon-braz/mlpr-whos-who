@@ -1,11 +1,10 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { Link, route } from 'preact-router';
+import { route } from 'preact-router';
 import { useState } from 'preact/hooks';
 
 import { auth } from '../../shared/firebase';
 import Header from '../../components/header';
 import style from './style.scss';
-import { buildRoute } from '../../shared/helpers';
 import { warningMessages } from '../../shared/warning-messages';
 
 const Login = ({ matches }) => {
@@ -83,12 +82,6 @@ const Login = ({ matches }) => {
           <div class={style.row}>
             <span></span>
             <button type='submit'>Log In</button>
-          </div>
-          <div class={style.row}>
-            <span></span>
-            <Link href={buildRoute('/register', { redirectUrl })}>
-              No account? Register here
-            </Link>
           </div>
         </form>
       </div>

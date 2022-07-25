@@ -1,9 +1,11 @@
-import { onAuthStateChanged } from 'firebase/auth';
-import { route } from 'preact-router';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { getCurrentUrl, route } from 'preact-router';
 
 import ApiService from './api-service';
+import { PERMISSIONS } from './constants';
 import { auth } from './firebase';
 import { buildRoute } from './helpers';
+import { warningMessageKeys } from './warning-messages';
 
 const redirectToLogin = (redirectUrl, warningMessage) => {
   route(buildRoute('/login', { redirectUrl, warningMessage }));
@@ -29,5 +31,27 @@ export const authenticate = ({ permissions, redirectUrl, warningMessage }) => {
         })
         .catch(() => resolve(false));
     });
+  });
+};
+
+/**
+ * Verifies that
+ *   a) The user is logged in
+ *   b) The user has 'writer' permissions
+ *
+ * If either check fails, the user will be redirected to the login page (and signed out if needed)
+ */
+export const verifyUserIsLoggedIn = () => {
+  authenticate({
+    permissions: [PERMISSIONS.write],
+    redirectUrl: getCurrentUrl(),
+    warningMessage: warningMessageKeys.loginGeneral
+  }).then((hasPermissions) => {
+    if (!hasPermissions) {
+      alert(
+        `This user isn't yet set up. Please contact Jon or Liam for support.`
+      );
+      signOut(auth).then(() => route(`/login`));
+    }
   });
 };
