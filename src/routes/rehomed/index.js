@@ -2,11 +2,17 @@ import { useEffect, useState } from 'preact/hooks';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
+import { verifyUserIsLoggedIn } from '../../shared/auth-guard';
 import style from './style.scss';
 
 const Rehomed = () => {
   const [animals, updateAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Protected route - user must be logged in
+  useEffect(() => {
+    verifyUserIsLoggedIn();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
