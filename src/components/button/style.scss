@@ -1,17 +1,22 @@
 @import '../../shared/defaults';
 
 .button {
-    padding: 4px 8px;
-    background-color: $primary-background;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 4px 8px;
+  background-color: $primary-background;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 
-    color: white;
-    font-size: 12px;
-    font-weight: 400;
+  color: white;
+  font-size: 12px;
+  font-weight: 400;
 
-    &:hover {
-        filter: brightness(0.8);
-    }
+  &:hover:not(:disabled) {
+    filter: brightness(0.8);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }

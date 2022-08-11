@@ -41,15 +41,21 @@ export const authenticate = ({ permissions, redirectUrl, warningMessage }) => {
  *
  * If either check fails, the user will be redirected to the login page (and signed out if needed)
  */
-export const verifyUserIsLoggedIn = () => {
+export const verifyUserIsLoggedIn = (checkIfAdmin) => {
+  const permissions = checkIfAdmin
+    ? [PERMISSIONS.admin, PERMISSIONS.write]
+    : [PERMISSIONS.write];
+
   authenticate({
-    permissions: [PERMISSIONS.write],
+    permissions: permissions,
     redirectUrl: getCurrentUrl(),
     warningMessage: warningMessageKeys.loginGeneral
   }).then((hasPermissions) => {
     if (!hasPermissions) {
       alert(
-        `This user isn't yet set up. Please contact Jon or Liam for support.`
+        checkIfAdmin
+          ? `You must be an admin to view this page. Please contact Jon or Liam for support.`
+          : `This user isn't yet set up. Please contact Jon or Liam for support.`
       );
       signOut(auth).then(() => route(`/login`));
     }

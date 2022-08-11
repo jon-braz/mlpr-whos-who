@@ -12,6 +12,7 @@ import Install from '../routes/install';
 import Login from '../routes/login';
 import Logout from '../routes/logout';
 import Register from '../routes/register';
+import Backup from '../routes/backup';
 
 const App = () => (
   <div id='app' class={style.app}>
@@ -26,6 +27,7 @@ const App = () => (
       <Login path='/login' />
       <Logout path='/logout' />
       <Register path='/register' />
+      <Backup path='/backup' />
     </Router>
   </div>
 );
