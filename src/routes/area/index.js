@@ -1,5 +1,5 @@
 import Header from '../../components/header';
-import { AREAS } from '../../shared/constants';
+import { AREAS, STORAGE_KEYS, VIEW_MODES } from '../../shared/constants';
 import style from './style.scss';
 import AreaMap from '../../components/area-map';
 import FAB from '../../components/fab';
@@ -9,6 +9,8 @@ import { verifyUserIsLoggedIn } from '../../shared/auth-guard';
 
 import MapIcon from 'mdi-preact/MapIcon';
 import ListIcon from 'mdi-preact/FormatListBulletedIcon';
+import ApiService from '../../shared/api-service';
+import AreaList from '../../components/area-list';
 
 const Area = ({ area }) => {
   // Protected route - user must be logged in
@@ -17,6 +19,25 @@ const Area = ({ area }) => {
   }, [area]);
 
   const [mapView, setMapView] = useState(true);
+  const [animals, setAnimals] = useState([]);
+
+  // Fetch animals
+  useEffect(() => {
+    ApiService.fetchAnimals({ area }).then(setAnimals);
+  }, [area]);
+
+  // Retrive list|map mode from local storage
+  useEffect(() => {
+    const viewMode =
+      window.localStorage.getItem(STORAGE_KEYS.viewMode) || VIEW_MODES.default;
+    setMapView(viewMode === VIEW_MODES.map ? true : false);
+  }, []);
+
+  // Update map|list mode in local storage whenever it's updated in the UI
+  useEffect(() => {
+    const viewMode = mapView ? VIEW_MODES.map : VIEW_MODES.list;
+    window.localStorage.setItem(STORAGE_KEYS.viewMode, viewMode);
+  }, [mapView]);
 
   const areaTitle = AREAS[area].name;
   const areaColor = AREAS[area].color;
@@ -44,10 +65,11 @@ const Area = ({ area }) => {
       {mapView ? (
         <AreaMap
           area={area}
+          animals={animals}
           showAnimals={true}
           animalOnClick={animalOnClick}></AreaMap>
       ) : (
-        <div>LIST</div>
+        <AreaList animals={animals} animalOnClick={animalOnClick}></AreaList>
       )}
 
       <FAB>
