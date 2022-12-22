@@ -1,0 +1,76 @@
+@import '../../shared/defaults.scss';
+
+.animalList {
+  width: 100%;
+  padding: 7px 0 50px;
+
+  // Set row sizes, spacing, layout
+  .animal,
+  .listHeader {
+    display: flex;
+    padding: 3px 10px;
+
+    .col1 {
+      flex: 1 1 10px;
+    }
+    .col2 {
+      flex: 1 1 15%;
+    }
+    .col3,
+    .col4 {
+      flex: 1 1 40%;
+    }
+
+    .col1,
+    .col2,
+    .col3,
+    .col4 {
+      display: flex;
+      align-items: center;
+      word-break: break-word;
+    }
+  }
+
+  // Smaller fonts for the table
+  .animal {
+    .col2 {
+      font-size: 0.9rem;
+    }
+    .col3,
+    .col4 {
+      font-size: 0.8rem;
+    }
+  }
+
+  .listHeader {
+    font-weight: 700;
+  }
+
+  // BG color to separate rows and highlighting on hover
+  .animal {
+    &:nth-child(odd) {
+      background-color: #efefef;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: #ddd;
+    }
+  }
+
+  // Indicator of danger level
+  .dangerDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 6px;
+    &.green {
+      background-color: $green;
+    }
+    &.orange {
+      background-color: $orange;
+    }
+    &.red {
+      background-color: $red;
+    }
+  }
+}

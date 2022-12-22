@@ -33,3 +33,15 @@ export const PERMISSIONS = {
   write: 'writer',
   admin: 'admin'
 };
+
+// View configuration for the areas (whether to open in map-view or list-view)
+export const VIEW_MODES = {
+  map: 'map',
+  list: 'list',
+  default: 'map'
+};
+
+// Keys for local storage
+export const STORAGE_KEYS = {
+  viewMode: 'viewMode'
+};

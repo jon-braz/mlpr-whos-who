@@ -59,7 +59,7 @@ export default class ApiService {
     return getDoc(docRef).then(parseDoc);
   }
 
-  static fetchAnimals({ area, location, rehomed = false }) {
+  static fetchAnimals({ area, location, rehomed = false } = {}) {
     let queryConditions = [where('rehomed', '==', rehomed)];
 
     if (area) {
