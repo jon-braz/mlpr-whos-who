@@ -23,18 +23,3 @@
   text-decoration: none;
   border-radius: 50%;
 }
-
-.iconButton {
-  border: 0;
-  background: none;
-  opacity: 0.5;
-
-  &.active {
-    opacity: 1;
-  }
-
-  &:not(.active):hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-}

@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'preact/hooks';
 import style from './style.scss';
 
-const AreaList = ({ animals, animalOnClick }) => {
+const AnimalList = ({ animals, animalOnClick }) => {
   const [sortedAnimals, setSortedAnimals] = useState([]);
 
+  // Sort animals alphabetically by name
   useEffect(() => {
     const sorted = (animals || []).sort((a, b) => (a.name > b.name ? 1 : -1));
     setSortedAnimals(sorted);
   }, [animals]);
 
+  // On click, pass action to parent
   const clickedAnimal = (animal) => (event) => {
     if (animalOnClick) {
       event.stopPropagation();
@@ -16,6 +18,7 @@ const AreaList = ({ animals, animalOnClick }) => {
     }
   };
 
+  // Map array of animals to each have a row in the list
   const animalRows = (sortedAnimals || []).map((animal) => (
     <div onClick={clickedAnimal(animal)} class={style.animal}>
       <div class={style.col1}>
@@ -28,7 +31,7 @@ const AreaList = ({ animals, animalOnClick }) => {
   ));
 
   return (
-    <table class={style.animalList}>
+    <div class={style.animalList}>
       <div class={style.listHeader}>
         <div class={style.col1}></div>
         <div class={style.col2}>Name</div>
@@ -36,8 +39,8 @@ const AreaList = ({ animals, animalOnClick }) => {
         <div class={style.col4}>Medication</div>
       </div>
       {animalRows}
-    </table>
+    </div>
   );
 };
 
-export default AreaList;
+export default AnimalList;

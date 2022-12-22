@@ -1,6 +1,7 @@
 @import '../../shared/defaults.scss';
 
 .animalList {
+  width: 100%;
   padding: 7px 0 50px;
 
   // Set row sizes, spacing, layout
@@ -26,6 +27,7 @@
     .col4 {
       display: flex;
       align-items: center;
+      word-break: break-word;
     }
   }
 

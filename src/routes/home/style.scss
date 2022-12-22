@@ -1,19 +1,26 @@
 .home {
-	min-height: 100%;
-	width: 100%;
+  min-height: 100%;
+  width: 100%;
 }
 
 .animalIcon {
-	width: 36px;
-	height: 36px;
-	color: white;
-	margin-left: 16px;
-	margin-top: -2px;
+  width: 36px;
+  height: 36px;
+  color: white;
+  margin-left: 16px;
+  margin-top: -2px;
 }
 
 .title.title {
-	font-family: zenloop;
-	font-size: 36px;
-	font-weight: bold;
-	padding-left: 8px;
+  font-family: zenloop;
+  font-size: 36px;
+  font-weight: bold;
+  padding-left: 8px;
+}
+
+.loadingSpinnerContainer {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

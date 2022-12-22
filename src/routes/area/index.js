@@ -2,15 +2,13 @@ import Header from '../../components/header';
 import { AREAS, STORAGE_KEYS, VIEW_MODES } from '../../shared/constants';
 import style from './style.scss';
 import AreaMap from '../../components/area-map';
-import FAB from '../../components/fab';
 import { route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import { verifyUserIsLoggedIn } from '../../shared/auth-guard';
 
-import MapIcon from 'mdi-preact/MapIcon';
-import ListIcon from 'mdi-preact/FormatListBulletedIcon';
 import ApiService from '../../shared/api-service';
-import AreaList from '../../components/area-list';
+import AnimalList from '../../components/animal-list';
+import ViewToggle from '../../components/view-toggle';
 
 const Area = ({ area }) => {
   // Protected route - user must be logged in
@@ -46,12 +44,8 @@ const Area = ({ area }) => {
     route(`/who/${animal.id}`);
   };
 
-  const viewMap = () => {
-    setMapView(true);
-  };
-
-  const viewList = () => {
-    setMapView(false);
+  const setView = (viewMode) => {
+    setMapView(viewMode === VIEW_MODES.map ? true : false);
   };
 
   return (
@@ -69,21 +63,12 @@ const Area = ({ area }) => {
           showAnimals={true}
           animalOnClick={animalOnClick}></AreaMap>
       ) : (
-        <AreaList animals={animals} animalOnClick={animalOnClick}></AreaList>
+        <AnimalList
+          animals={animals}
+          animalOnClick={animalOnClick}></AnimalList>
       )}
 
-      <FAB>
-        <button
-          onClick={viewMap}
-          class={`${style.iconButton} ${mapView ? style.active : ''}`}>
-          <MapIcon></MapIcon>
-        </button>
-        <button
-          onClick={viewList}
-          class={`${style.iconButton} ${mapView ? '' : style.active}`}>
-          <ListIcon></ListIcon>
-        </button>
-      </FAB>
+      <ViewToggle mapView={mapView} setView={setView} />
     </div>
   );
 };
