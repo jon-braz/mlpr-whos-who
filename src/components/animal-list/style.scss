@@ -29,13 +29,16 @@
       align-items: center;
       word-break: break-word;
     }
+
+    .col2,
+    .col3 {
+      padding-right: 5px;
+    }
   }
 
   // Smaller fonts for the table
   .animal {
-    .col2 {
-      font-size: 0.9rem;
-    }
+    .col2,
     .col3,
     .col4 {
       font-size: 0.8rem;

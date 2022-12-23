@@ -6,7 +6,7 @@ const AreaMap = ({ area, animals, onClick, animalOnClick, showAnimals }) => {
 
   useEffect(() => {
     if (showAnimals) {
-      const locMap = animals.reduce((map, animal) => {
+      const locMap = (animals || []).reduce((map, animal) => {
         const locationString = animal.location.join('');
         const animalsAtLocation = map[locationString] || [];
         map[locationString] = [...animalsAtLocation, animal];
