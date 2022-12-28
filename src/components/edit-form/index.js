@@ -75,6 +75,7 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
   const [showMap, setShowMap] = useState(false);
   const [showArea, setShowArea] = useState(null);
   const [processingImage, setProcessingImage] = useState(false);
+  const [animalsForArea, setAnimalsForArea] = useState([]);
   const [groupedAnimals, setGroupedAnimals] = useState([]);
   const [moveWith, setMoveWith] = useState({});
 
@@ -145,8 +146,11 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
   };
 
   const showAreaMap = (area) => {
-    setShowArea(area);
-    setShowMap(false);
+    ApiService.fetchAnimals({ area }).then((animals) => {
+      setAnimalsForArea(animals);
+      setShowArea(area);
+      setShowMap(false);
+    });
   };
 
   const changeLocation = (event) => {
@@ -345,6 +349,7 @@ const EditForm = ({ existingState, onSave, loading, onDelete }) => {
           <AreaMap
             area={showArea}
             showAnimals={true}
+            animals={animalsForArea}
             onClick={setLocation}
             animalOnClick={setPairedLocation}></AreaMap>
         </Modal>

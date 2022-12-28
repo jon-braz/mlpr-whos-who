@@ -1,0 +1,15 @@
+@import '../../shared/defaults';
+
+.fab {
+  // Centered (floating) at the bottom of the screen
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  // Internal Styling
+  padding: 3px 4px 0px;
+  background-color: white;
+  border-radius: 20px;
+  filter: drop-shadow(0px 2px 2px #888);
+}

@@ -1,32 +1,26 @@
 import { useEffect, useState } from 'preact/hooks';
-import ApiService from '../../shared/api-service';
 import style from './style.scss';
 
-let locationMap = {};
-
-const AreaMap = ({ area, onClick, animalOnClick, showAnimals }) => {
-  const [animals, updateAnimals] = useState([]);
+const AreaMap = ({ area, animals, onClick, animalOnClick, showAnimals }) => {
+  const [locationMap, setLocationMap] = useState({});
 
   useEffect(() => {
     if (showAnimals) {
-      ApiService.fetchAnimals({ area }).then((fetchedAnimals) => {
-        locationMap = fetchedAnimals.reduce((map, animal) => {
-          const locationString = animal.location.join('');
-          const animalsAtLocation = map[locationString] || [];
-          map[locationString] = [...animalsAtLocation, animal];
-          return map;
-        }, {});
-        updateAnimals(fetchedAnimals);
-      });
+      const locMap = (animals || []).reduce((map, animal) => {
+        const locationString = animal.location.join('');
+        const animalsAtLocation = map[locationString] || [];
+        map[locationString] = [...animalsAtLocation, animal];
+        return map;
+      }, []);
+      setLocationMap(locMap);
 
       const clearAnimals = () => {
-        updateAnimals([]);
-        locationMap = {};
+        setLocationMap({});
       };
 
       return clearAnimals;
     }
-  }, [area]);
+  }, [area, animals]);
 
   const clicked = (event) => {
     const position = [
