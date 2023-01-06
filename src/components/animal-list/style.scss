@@ -53,7 +53,7 @@ $danger-dot-diameter: 6px;
       z-index: 10;
     }
     .col3 {
-      padding-left: 3px;
+      padding-left: 5px;
     }
     .col6 {
       display: flex;
@@ -77,8 +77,13 @@ $danger-dot-diameter: 6px;
 
   // Smaller fonts for the table
   .animal {
-    div[class^='col']:not(.col1) {
-      font-size: 0.8rem;
+    div[class^='col'] {
+      &:not(.col1) {
+        font-size: 0.8rem;
+      }
+      &.col2 {
+        font-size: 0.9rem;
+      }
     }
   }
 
