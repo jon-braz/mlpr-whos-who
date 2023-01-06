@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { buildLocationMap } from '../../shared/helpers';
 import style from './style.scss';
 
 const AreaMap = ({ area, animals, onClick, animalOnClick, showAnimals }) => {
@@ -6,12 +7,7 @@ const AreaMap = ({ area, animals, onClick, animalOnClick, showAnimals }) => {
 
   useEffect(() => {
     if (showAnimals) {
-      const locMap = (animals || []).reduce((map, animal) => {
-        const locationString = animal.location.join('');
-        const animalsAtLocation = map[locationString] || [];
-        map[locationString] = [...animalsAtLocation, animal];
-        return map;
-      }, []);
+      const locMap = buildLocationMap(animals);
       setLocationMap(locMap);
 
       const clearAnimals = () => {
