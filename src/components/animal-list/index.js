@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { ANIMAL_PROPERTIES } from '../../shared/constants';
 import style from './style.scss';
 
 const AnimalList = ({ animals, animalOnClick }) => {
@@ -22,11 +23,14 @@ const AnimalList = ({ animals, animalOnClick }) => {
   const animalRows = (sortedAnimals || []).map((animal) => (
     <div onClick={clickedAnimal(animal)} class={style.animal}>
       <div class={style.col1}>
-        <div class={`${style.dangerDot} ${style[animal.dangerLevel]}`}></div>
+        <div
+          class={`${style.dangerDot} 
+          ${style[animal[ANIMAL_PROPERTIES.dangerLevel]]}`}></div>
       </div>
-      <div class={style.col2}>{animal.name}</div>
-      <div class={style.col3}>{animal.food}</div>
-      <div class={style.col4}>{animal.medication}</div>
+      <div class={style.col2}>{animal[ANIMAL_PROPERTIES.name]}</div>
+      <div class={style.col3}>{animal[ANIMAL_PROPERTIES.food]}</div>
+      <div class={style.col4}>{animal[ANIMAL_PROPERTIES.medication]}</div>
+      <div class={style.col5}>{animal[ANIMAL_PROPERTIES.enrichment]}</div>
     </div>
   ));
 
@@ -37,6 +41,7 @@ const AnimalList = ({ animals, animalOnClick }) => {
         <div class={style.col2}>Name</div>
         <div class={style.col3}>Food</div>
         <div class={style.col4}>Medication</div>
+        <div class={style.col5}>Enrichment</div>
       </div>
       {animalRows}
     </div>

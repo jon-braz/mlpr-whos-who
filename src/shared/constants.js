@@ -45,3 +45,11 @@ export const VIEW_MODES = {
 export const STORAGE_KEYS = {
   viewMode: 'viewMode'
 };
+
+export const ANIMAL_PROPERTIES = {
+  dangerLevel: 'dangerLevel',
+  enrichment: 'enrichment',
+  food: 'food',
+  medication: 'medication',
+  name: 'name'
+};
