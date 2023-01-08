@@ -1,47 +1,89 @@
 @import '../../shared/defaults.scss';
 
+// Number of columns being displayed
+$columns: 6;
+// Width of the various columns
+$danger-col-width: 20px;
+$name-col-width: max-content;
+$data-col-width: 40%;
+// Size of the danger-dot icon
+$danger-dot-diameter: 6px;
+
 .animalList {
   width: 100%;
   padding: 7px 0 50px;
 
+  // Display as grid, with all columns 40% except the first two (scrolls horizontally)
+  display: grid;
+  grid-template-columns: $danger-col-width $name-col-width repeat(
+      #{$columns - 2},
+      $data-col-width
+    );
+  overflow-x: auto;
+
   // Set row sizes, spacing, layout
   .animal,
   .listHeader {
-    display: flex;
-    padding: 3px 10px;
+    display: contents;
 
+    > :first-child {
+      padding-left: 8px;
+    }
+
+    > :last-child {
+      padding-right: 10px;
+    }
+
+    @for $i from 1 through $columns {
+      .col#{$i} {
+        grid-column: #{$i} / #{$i + 1};
+      }
+    }
+
+    // Fix the first two columns (pigs' names and danger levels)
     .col1 {
-      flex: 1 1 10px;
+      position: sticky;
+      left: 0;
+      z-index: 10;
     }
     .col2 {
-      flex: 1 1 15%;
+      position: sticky;
+      left: $danger-col-width;
+      border-right: 1px solid #ccc;
+      z-index: 10;
     }
-    .col3,
-    .col4 {
-      flex: 1 1 40%;
+    .col3 {
+      padding-left: 5px;
+    }
+    .col6 {
+      display: flex;
+      flex-wrap: wrap;
     }
 
-    .col1,
-    .col2,
-    .col3,
-    .col4 {
+    // Define spacing and layout within the cells
+    div[class^='col'] {
       display: flex;
       align-items: center;
       word-break: break-word;
-    }
 
-    .col2,
-    .col3 {
-      padding-right: 10px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+
+      &:not(:last-child):not(:first-child) {
+        padding-right: 10px;
+      }
     }
   }
 
   // Smaller fonts for the table
   .animal {
-    .col2,
-    .col3,
-    .col4 {
-      font-size: 0.8rem;
+    div[class^='col'] {
+      &:not(.col1) {
+        font-size: 0.8rem;
+      }
+      &.col2 {
+        font-size: 0.9rem;
+      }
     }
   }
 
@@ -49,23 +91,44 @@
     font-weight: 700;
   }
 
-  // BG color to separate rows and highlighting on hover
-  .animal {
-    &:nth-child(odd) {
-      background-color: #efefef;
+  // BG color to separate rows
+  .animal,
+  .listHeader {
+    > * {
+      background-color: white;
     }
 
-    &:hover {
+    &:nth-child(even) > * {
+      background-color: #efefef;
+    }
+  }
+
+  // Highlighting on hover
+  .animal {
+    &:hover > * {
       cursor: pointer;
       background-color: #ddd;
     }
   }
 
+  .animal > * {
+    transition: filter 1s, transform 1s;
+  }
+  // Apply filter to highlight a row temporarily
+  .animal.highlighted {
+    > * {
+      filter: sepia(1) hue-rotate(45deg) saturate(2);
+      transform: scaleY(1.1);
+    }
+  }
+
   // Indicator of danger level
   .dangerDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 6px;
+    width: $danger-dot-diameter;
+    max-width: $danger-dot-diameter;
+    min-width: $danger-dot-diameter;
+    height: $danger-dot-diameter;
+    border-radius: $danger-dot-diameter;
     &.green {
       background-color: $green;
     }
@@ -75,5 +138,11 @@
     &.red {
       background-color: $red;
     }
+  }
+
+  .locWithWrapper {
+    margin-right: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
 }

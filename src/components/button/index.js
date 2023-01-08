@@ -2,9 +2,9 @@ import { route } from 'preact-router';
 import style from './style.scss';
 
 const Button = ({ children, href, onClick, ...props }) => {
-  const btnClick = () => {
+  const btnClick = (event) => {
     if (onClick) {
-      onClick();
+      onClick(event);
     } else if (href) {
       route(href);
     }
