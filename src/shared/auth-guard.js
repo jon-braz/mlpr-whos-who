@@ -38,12 +38,18 @@ export const authenticate = ({ permissions, redirectUrl, warningMessage }) => {
  * Verifies that
  *   a) The user is logged in
  *   b) The user has 'writer' permissions
+ *   c) (optionally) The user has 'admin' permission
  *
  * If either check fails, the user will be redirected to the login page (and signed out if needed)
  */
-export const verifyUserIsLoggedIn = () => {
+export const verifyUserIsLoggedIn = (admin) => {
+  // Check for 'writer' permission and, if requested, 'admin'
+  const permissions = [PERMISSIONS.write, admin && PERMISSIONS.admin].filter(
+    Boolean
+  );
+
   authenticate({
-    permissions: [PERMISSIONS.write],
+    permissions,
     redirectUrl: getCurrentUrl(),
     warningMessage: warningMessageKeys.loginGeneral
   }).then((hasPermissions) => {
@@ -54,4 +60,11 @@ export const verifyUserIsLoggedIn = () => {
       signOut(auth).then(() => route(`/login`));
     }
   });
+};
+
+/**
+ * Calls verifyUserIsLoggedIn(true) -> checks for 'admin' permission
+ */
+export const verifyUserIsAdmin = () => {
+  verifyUserIsLoggedIn(true);
 };

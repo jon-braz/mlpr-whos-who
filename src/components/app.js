@@ -12,6 +12,8 @@ import Install from '../routes/install';
 import Login from '../routes/login';
 import Logout from '../routes/logout';
 import Register from '../routes/register';
+import Videos from '../routes/videos';
+import Video from '../routes/video';
 
 const App = () => (
   <div id='app' class={style.app}>
@@ -26,6 +28,8 @@ const App = () => (
       <Login path='/login' />
       <Logout path='/logout' />
       <Register path='/register' />
+      <Videos path='/videos' />
+      <Video path='/videos/:id' />
     </Router>
   </div>
 );
