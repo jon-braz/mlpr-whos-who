@@ -188,4 +188,23 @@ export default class ApiService {
     );
     return getDoc(docRef).then((doc) => doc.data()?.categories);
   }
+
+  static updateVideoCategories(categories) {
+    if (!Array.isArray(categories)) {
+      return Promise.reject(
+        'Categories must be provided as an array of strings'
+      );
+    }
+
+    const uniqueCategories = [...new Set(categories || [])];
+
+    const videoCategoriesCollection = collection(
+      firestore,
+      COLLECTION_VIDEO_CATEGORIES
+    );
+
+    return setDoc(doc(videoCategoriesCollection, COLLECTION_VIDEO_CATEGORIES), {
+      categories: uniqueCategories
+    });
+  }
 }

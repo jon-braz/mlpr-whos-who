@@ -55,3 +55,7 @@ export const ANIMAL_PROPERTIES = {
   medication: 'medication',
   name: 'name'
 };
+
+// File upload limits
+const MB = 1024 ** 2;
+const MAX_VIDEO_MB = 30;
