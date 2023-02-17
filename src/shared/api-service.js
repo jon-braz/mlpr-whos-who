@@ -14,6 +14,7 @@ import {
   COLLECTION_ANIMALS,
   COLLECTION_USERS,
   COLLECTION_VIDEOS,
+  COLLECTION_VIDEO_CATEGORIES,
   PERMISSIONS
 } from './constants';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -177,5 +178,14 @@ export default class ApiService {
   static getVideo(id) {
     const docRef = doc(firestore, COLLECTION_VIDEOS, id);
     return getDoc(docRef).then(parseDoc);
+  }
+
+  static getVideoCategories() {
+    const docRef = doc(
+      firestore,
+      COLLECTION_VIDEO_CATEGORIES,
+      COLLECTION_VIDEO_CATEGORIES
+    );
+    return getDoc(docRef).then((doc) => doc.data()?.categories);
   }
 }
