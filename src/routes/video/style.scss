@@ -1,5 +1,13 @@
+$header-height: 56px;
+$video-el-buffer: 5px;
+
 .video {
   .content {
-    padding: 10px;
+    padding: 0;
+  }
+
+  .videoEl {
+    max-width: 100%;
+    max-height: calc(100vh - $header-height - $video-el-buffer);
   }
 }

@@ -1,11 +1,9 @@
-import { getCurrentUrl, Link } from 'preact-router';
+import { Link } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
-import { authenticate, verifyUserIsLoggedIn } from '../../shared/auth-guard';
-import { PERMISSIONS, MB } from '../../shared/constants';
+import { verifyUserIsLoggedIn } from '../../shared/auth-guard';
 import style from './style.scss';
-import ControlledInputWithSave from '../../components/controlled-input-save';
 
 const Videos = () => {
   // Protected route - user must be logged in
@@ -33,7 +31,9 @@ const Videos = () => {
       (video) => video.category === category
     );
     const videoEls = videosInCategory.map((video) => (
-      <Link href={`/videos/${video.id}`}>{video.title}</Link>
+      <Link href={`/videos/${video.id}`} class={style.videoTitle}>
+        {video.title}
+      </Link>
     ));
 
     return (

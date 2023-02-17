@@ -43,8 +43,12 @@ const Video = ({ id }) => {
 
   return (
     <div class={style.video}>
-      <Header showMenu={true} title={video.name} backLink='/videos' />
-      <div class={style.content}></div>
+      <Header showMenu={true} title={video.title} backLink='/videos' />
+      <div class={style.content}>
+        {video && (
+          <video controls src={video.src} class={style.videoEl}></video>
+        )}
+      </div>
     </div>
   );
 };
