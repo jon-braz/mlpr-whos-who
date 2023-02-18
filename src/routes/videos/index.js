@@ -30,14 +30,19 @@ const Videos = () => {
     const videosInCategory = videos.filter(
       (video) => video.category === category
     );
-    const videoEls = videosInCategory.map((video) => (
-      <Link href={`/videos/${video.id}`} class={style.videoTitle}>
-        {video.title}
-      </Link>
-    ));
+    const videoEls = videosInCategory
+      .sort((a, b) => (a?.order < b?.order ? -1 : 1))
+      .map((video) => (
+        <Link href={`/videos/${video.id}`} class={style.card}>
+          <div class={style.videoDataContainer}>
+            <h4 class={style.videoTitle}>{video.title}</h4>
+            <span class={style.videoDescription}>{video.description}</span>
+          </div>
+        </Link>
+      ));
 
     return (
-      <section>
+      <section class={style.category}>
         <h2 class={style.categoryTitle}>{category}</h2>
         {videoEls}
       </section>

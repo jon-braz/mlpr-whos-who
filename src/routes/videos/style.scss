@@ -2,4 +2,57 @@
   .content {
     padding: 10px;
   }
+
+  .category {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 8px;
+      text-decoration: none;
+      margin-bottom: 8px;
+
+      background-color: #fff;
+      transition: 100ms background-color;
+
+      display: flex;
+
+      &:hover {
+        background-color: #eee;
+      }
+
+      // TODO Only necessary if we get separate thumbnails for the videos
+      .videoPreviewContainer {
+        overflow: hidden;
+        width: 70px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #eee;
+
+        .videoPreview {
+          max-width: 100%;
+        }
+      }
+
+      .videoDataContainer {
+        flex: 100% 1 1;
+
+        .videoTitle {
+          margin: 0 0 5px;
+          font-weight: 400;
+        }
+
+        .videoDescription {
+          color: #777;
+          font-weight: 300;
+          font-size: 0.85em;
+        }
+      }
+    }
+  }
 }
