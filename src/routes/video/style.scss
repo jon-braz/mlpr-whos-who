@@ -3,11 +3,16 @@ $video-el-buffer: 5px;
 
 .video {
   .content {
+    height: calc(100vh - $header-height - $video-el-buffer);
+    display: flex;
+    justify-content: center;
     padding: 0;
+    background-color: black;
   }
 
   .videoEl {
+    width: 100%;
     max-width: 100%;
-    max-height: calc(100vh - $header-height - $video-el-buffer);
+    max-height: 100%;
   }
 }

@@ -1,87 +1,93 @@
 @import '../../shared/defaults';
 
 .header {
-	width: 100%;
-	height: 56px;
-	display: flex;
-	align-items: center;
-	padding: 0;
-	background: $primary-background;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-	z-index: 50;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background: $primary-background;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 50;
 
-	&.red,
-	&.orange,
-	&.green {
-		box-shadow: none;
-	}
+  &.red,
+  &.orange,
+  &.green {
+    box-shadow: none;
+  }
 
-	&.red {
-		background-color: $red-background;
-	}
-	&.orange {
-		background-color: $orange-background
-	}
-	&.green {
-		background-color: $green-background;
-	}
+  &.red {
+    background-color: $red-background;
+  }
+  &.orange {
+    background-color: $orange-background;
+  }
+  &.green {
+    background-color: $green-background;
+  }
 
-	&.zenloop {
-		font-family: zenloop;
-	}
+  &.zenloop {
+    font-family: zenloop;
+  }
 
-	.backIcon {
-		height: 24px;
-		fill: white;
-		margin-left: 8px;
-		transition: all 200ms;
+  .backIcon {
+    height: 24px;
+    fill: white;
+    margin-left: 8px;
+    transition: all 200ms;
 
-		&:hover {
-			transform: scale(1.1);
-		}
-	}
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 
-	.editLink {
-		margin-left: auto;
-		margin-right: 10px;
-	}
-	.editIcon {
-		color: white;
-	}
+  .editLink {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+  .editIcon {
+    color: white;
+  }
 }
 
 .header h1 {
-	margin: 0;
-	padding: 0 15px;
-	font-size: 24px;
-	line-height: 56px;
-	font-weight: bold;
-	color: #FFF;
+  margin: 0;
+  padding: 0 15px;
+  font-size: 24px;
+  line-height: 56px;
+  font-weight: bold;
+  color: #fff;
+
+  // Truncate long titles on small screens
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: calc(100vw - 65px);
 }
 
 .header nav {
-	margin-left: auto;
-	font-size: 100%;
+  margin-left: auto;
+  font-size: 100%;
 }
 
 .header nav a {
-	display: inline-block;
-	height: 56px;
-	line-height: 56px;
-	padding: 0 15px;
-	min-width: 50px;
-	text-align: center;
-	background: rgba(255,255,255,0);
-	text-decoration: none;
-	color: #FFF;
-	will-change: background-color;
+  display: inline-block;
+  height: 56px;
+  line-height: 56px;
+  padding: 0 15px;
+  min-width: 50px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0);
+  text-decoration: none;
+  color: #fff;
+  will-change: background-color;
 }
 
 .header nav a:hover,
 .header nav a:active {
-	background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .header nav a.active {
-	background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
 }
