@@ -14,6 +14,7 @@ const Videos = () => {
   const [videos, setVideos] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  // Fetch all videos and categories
   useEffect(() => {
     Promise.all([ApiService.getVideos(), ApiService.getVideoCategories()]).then(
       async ([videos, categories]) => {
@@ -24,7 +25,7 @@ const Videos = () => {
   }, []);
 
   /**
-   * Render a div for each category, with a list of videos and option to add a new video to that category
+   * Render a div for each category, with a list of videos
    */
   const categoryEls = categories.map((category) => {
     const videosInCategory = videos.filter(

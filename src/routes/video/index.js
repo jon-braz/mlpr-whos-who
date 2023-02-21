@@ -1,9 +1,7 @@
-import { getCurrentUrl } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import Header from '../../components/header';
 import ApiService from '../../shared/api-service';
-import { authenticate, verifyUserIsLoggedIn } from '../../shared/auth-guard';
-import { PERMISSIONS } from '../../shared/constants';
+import { verifyUserIsLoggedIn } from '../../shared/auth-guard';
 import style from './style.scss';
 
 /**
@@ -19,24 +17,14 @@ const Video = ({ id }) => {
   }, []);
 
   const [video, setVideo] = useState({});
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Check if user is 'admin' to display extra controls
-  useEffect(() => {
-    authenticate({
-      permissions: [PERMISSIONS.admin],
-      redirectUrl: getCurrentUrl()
-    }).then(async (hasPermission) => {
-      setIsAdmin(hasPermission);
-    });
-  }, []);
-
+  // Fetch the desired video
   useEffect(() => {
     if (!id) {
       // If no id is provided, we can't fetch a video
       return false;
     }
-    ApiService.getVideo(id).then(async (video) => {
+    ApiService.getVideo(id).then((video) => {
       setVideo(video);
     });
   }, [id]);
