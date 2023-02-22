@@ -10,7 +10,13 @@ import {
   setDoc,
   where
 } from 'firebase/firestore';
-import { COLLECTION_ANIMALS, COLLECTION_USERS, PERMISSIONS } from './constants';
+import {
+  COLLECTION_ANIMALS,
+  COLLECTION_USERS,
+  COLLECTION_VIDEOS,
+  COLLECTION_VIDEO_CATEGORIES,
+  PERMISSIONS
+} from './constants';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const parseDoc = (doc) => ({
@@ -153,5 +159,33 @@ export default class ApiService {
 
     await uploadString(fileRef, fileDataUrl, 'data_url');
     return await getDownloadURL(fileRef);
+  }
+
+  /**
+   * Video Management
+   */
+
+  static getVideos() {
+    return getDocs(collection(firestore, COLLECTION_VIDEOS)).then(
+      (videoDocs) => {
+        const videos = videoDocs.docs.map(parseDoc);
+
+        return videos;
+      }
+    );
+  }
+
+  static getVideo(id) {
+    const docRef = doc(firestore, COLLECTION_VIDEOS, id);
+    return getDoc(docRef).then(parseDoc);
+  }
+
+  static getVideoCategories() {
+    const docRef = doc(
+      firestore,
+      COLLECTION_VIDEO_CATEGORIES,
+      COLLECTION_VIDEO_CATEGORIES
+    );
+    return getDoc(docRef).then((doc) => doc.data()?.categories);
   }
 }

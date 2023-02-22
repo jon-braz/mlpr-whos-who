@@ -12,6 +12,7 @@ const Sidebar = ({ open }) => {
       <Link href='/add'>Add Animal</Link>
       <Link href='/rehomed'>Rehomed Animals</Link>
       <Link href='/install'>Install App</Link>
+      {loggedIn ? <Link href='/videos'>Videos</Link> : ''}
       {loggedIn ? (
         <Link href='/logout'>Sign Out</Link>
       ) : (

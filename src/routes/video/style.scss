@@ -1,0 +1,20 @@
+$header-height: 56px;
+
+.video {
+  // Style the video player to be effectively full-screen
+  .content {
+    height: calc(100vh - $header-height);
+
+    // Center the player within the container
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    background-color: black;
+  }
+
+  .videoEl {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}

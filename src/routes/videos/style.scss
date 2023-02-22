@@ -1,0 +1,63 @@
+.videos {
+  // Spacing around display area
+  .content {
+    padding: 10px;
+  }
+
+  .category {
+    // Show each category as a vertical collection of cards
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    // Style each video as a card
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 8px;
+      text-decoration: none;
+
+      background-color: #fff;
+      transition: 100ms background-color;
+
+      &:hover {
+        background-color: #eee;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 8px;
+      }
+
+      // TODO Currently unused styles, only necessary if we get separate thumbnails for the videos
+      /*
+      .videoPreviewContainer {
+        overflow: hidden;
+        width: 70px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #eee;
+
+        .videoPreview {
+          max-width: 100%;
+        }
+      }
+      */
+
+      // Styles for the accompanying text
+      .videoDataContainer {
+        .videoTitle {
+          margin: 0 0 5px;
+          font-weight: 400;
+        }
+
+        .videoDescription {
+          color: #777;
+          font-weight: 300;
+          font-size: 0.85em;
+        }
+      }
+    }
+  }
+}

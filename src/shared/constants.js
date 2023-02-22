@@ -28,6 +28,8 @@ export const SPECIES = [
 
 export const COLLECTION_ANIMALS = 'animals';
 export const COLLECTION_USERS = 'users';
+export const COLLECTION_VIDEOS = 'videos';
+export const COLLECTION_VIDEO_CATEGORIES = 'video-categories';
 
 export const PERMISSIONS = {
   write: 'writer',
