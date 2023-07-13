@@ -109,10 +109,16 @@ export default class ApiService {
   }
 
   static async addAnimal(animal) {
-    const toAdd = await ApiService.prepAnimalForWrite(animal);
-    const animalsCollection = collection(firestore, COLLECTION_ANIMALS);
+    if (animal?.id) {
+      return ApiService.updateAnimal(animal);
+    }
 
-    return addDoc(animalsCollection, toAdd);
+    const animalsCollection = collection(firestore, COLLECTION_ANIMALS);
+    const docRef = doc(animalsCollection)
+    const {id} = docRef;
+    const toAdd = await ApiService.prepAnimalForWrite({...animal, id});
+
+    return setDoc(docRef, toAdd);
   }
 
   static async updateAnimal(animal) {
